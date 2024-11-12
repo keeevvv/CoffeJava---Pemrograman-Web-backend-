@@ -8,3 +8,5 @@ untuk menjalankan project ini di local
 4. ketik comamand npx prisma init
 5. npx prisma migrate dev --name "(bebas isi apa)"
 6. pada file .env tambahkanan DATABASE_URL yang disi dengan url database mysql, ACCESS_TOKEN dan REFRESH_TOKEN yang diisi bebas dengan apapun (note semakin random dan panjang token akan sekamin aman)
+7. untuk menjalankan project install nodemon dan jalankan command npm run dev atau jika tidak ada nodemon bisa menggunakan command node index.js
+
