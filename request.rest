@@ -1,0 +1,29 @@
+### Register User
+POST http://localhost:3000/api/v1/register
+Content-Type: application/json
+
+{
+    "nama": "John Doe3",
+    "email": "johndoe3@example.com",
+    "password": "password123",
+    "confirmPassword": "password123",
+    "gender": "male",
+    "tanggalLahir": "1990-01-01"
+}
+### Login User
+POST http://localhost:3000/api/v1/login
+Content-Type: application/json
+
+{
+    "email": "johndoe@example.com",
+    "password": "password123"
+}
+
+### get all user
+GET http://localhost:3000/api/v1/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhMzJjNzE1Ni02ODVlLTQzMjUtODE0My0xYzczMzdkMmRkNmIiLCJuYW1lIjoiSm9obiBEb2UiLCJlbWFpbFVzZXIiOiJqb2huZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNzMxMTYyMzc5LCJleHAiOjE3MzExNjIzOTR9.eDBFVKAdXVl3SKgmtul4YZc0L1Xa08hVA9x3C1fZ8aI
+#### token
+GET http://localhost:3000/api/v1/token
+
+### Logout
+DELETE http://localhost:3000/api/v1/logout
