@@ -33,5 +33,88 @@ model Token {
   userId        String
 }
 
+model Product {
+  product_id                Int                      @id @default(autoincrement())
+  pName                     String
+  location                  String
+  weight                    Float
+  categories                ProductCategory[]        // Relation to the ProductCategory join table
+  subcategories             ProductSubCategory[]     // Relation to the ProductSubCategory join table
+  specificSubCategories     ProductSpecificSubCategory[] // Relation to the ProductSpecificSubCategory join table
+  stock                     Stock[]                  @relation("ProductStocks")
+  images                    Image[]                  @relation("ProductImages")
+}
+
+model Category {
+  category_id               Int                      @id @default(autoincrement())
+  category_name             String
+  products                  ProductCategory[]        // Relation to the ProductCategory join table
+}
+
+model SubCategory {
+  sub_category_id           Int                      @id @default(autoincrement())
+  sub_category_name         String
+  products                  ProductSubCategory[]     // Relation to the ProductSubCategory join table
+}
+
+model SpecificSubCategory {
+  specific_sub_category_id  Int                      @id @default(autoincrement())
+  specific_sub_category_name String
+  products                  ProductSpecificSubCategory[] // Relation to the ProductSpecificSubCategory join table
+}
+
+/// Join tables for many-to-many relationships
+
+model ProductCategory {
+  product_id    Int
+  category_id   Int
+  Product       Product    @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
+  Category      Category   @relation(fields: [category_id], references: [category_id], onDelete: Cascade)
+
+  @@id([product_id, category_id])  // Composite primary key
+}
+
+model ProductSubCategory {
+  product_id       Int
+  sub_category_id  Int
+  Product          Product       @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
+  SubCategory      SubCategory   @relation(fields: [sub_category_id], references: [sub_category_id], onDelete: Cascade)
+
+  @@id([product_id, sub_category_id])  // Composite primary key
+}
+
+model ProductSpecificSubCategory {
+  product_id                Int
+  specific_sub_category_id  Int
+  Product                   Product               @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
+  SpecificSubCategory       SpecificSubCategory   @relation(fields: [specific_sub_category_id], references: [specific_sub_category_id], onDelete: Cascade)
+
+  @@id([product_id, specific_sub_category_id])  // Composite primary key
+}
+
+/// Stock model for size-specific stock tracking
+
+model Stock {
+  stock_id       Int       @id @default(autoincrement())
+  product_id     Int
+  size           String    // e.g., "S", "M", "L", "XL"
+  quantity       Int       // Number of items available in this size
+  
+  Product        Product   @relation("ProductStocks", fields: [product_id], references: [product_id], onDelete: Cascade)
+
+  @@unique([product_id, size])  // Ensures each size is unique for a given product
+}
+
+/// Image model to store URLs of product images
+
+model Image {
+  image_id       Int       @id @default(autoincrement())
+  product_id     Int
+  image_url      String    // URL of the product image
+
+  Product        Product   @relation("ProductImages", fields: [product_id], references: [product_id], onDelete: Cascade)
+}
+
+
 
 
