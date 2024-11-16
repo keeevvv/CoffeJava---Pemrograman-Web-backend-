@@ -41,7 +41,6 @@ export const getAllProduct = async (req, res) => {
     if (search) {
       where.pName = {
         contains: search,
-        
       };
     }
 
@@ -143,5 +142,106 @@ export const getAllProduct = async (req, res) => {
       success: false,
       message: "Failed to fetch products",
     });
+  }
+};
+
+export const getProductById = async (req, res) => {
+  const productId = parseInt(req.params["id"]);
+  if(isNaN(productId)) return res
+  .status(404)
+  .json({
+    status: 404,
+    type: "HttpException",
+    msg: "Product not found",
+  }); 
+  
+
+  try {
+    const product = await prisma.product.findUnique({
+      where: { product_id: productId },
+      select: {
+        product_id: true,
+        pName: true,
+        categories: {
+          select: {
+            Category: {
+              select: {
+                category_id: true,
+                category_name: true,
+              },
+            },
+          },
+        },
+        subcategories: {
+          select: {
+            SubCategory: {
+              select: {
+                sub_category_id: true,
+                sub_category_name: true,
+              },
+            },
+          },
+        },
+        specificSubCategories: {
+          select: {
+            SpecificSubCategory: {
+              select: {
+                specific_sub_category_id: true,
+                specific_sub_category_name: true,
+              },
+            },
+          },
+        },
+        stock: {
+          select: {
+            stock_id: true,
+            size: true,
+            quantity: true,
+          },
+        },
+        images: {
+          select: { image_url: true },
+        },
+      },
+    });
+    if (!product)
+      return res
+        .status(404)
+        .json({
+          status: 404,
+          type: "BadResponseException",
+          msg: "Product not found",
+        });
+    const formattedProduct = {
+      product_id: product.product_id,
+      pName: product.pName,
+      categories: product.categories.map((c) => ({
+        category_id: c.Category.category_id,
+        category_name: c.Category.category_name,
+      })),
+      subCategories: product.subcategories.map((s) => ({
+        sub_category_id: s.SubCategory.sub_category_id,
+        sub_category_name: s.SubCategory.sub_category_name,
+      })),
+      specificSubCategories: product.specificSubCategories.map((s) => ({
+        specific_sub_category_id:
+          s.SpecificSubCategory.specific_sub_category_id,
+        specific_sub_category_name:
+          s.SpecificSubCategory.specific_sub_category_name,
+      })),
+      images: product.images.map((i) => i.image_url),
+      stock: product.stock.map((s) => ({
+        stock_id: s.stock_id,
+        size: s.size,
+        quantity: s.quantity,
+      })),
+    };
+
+    return res.status(200).json({ data: { formattedProduct } });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ msg: "An error occurred while fetchin the Product" });
   }
 };
