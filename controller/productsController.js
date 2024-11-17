@@ -51,6 +51,8 @@ export const getAllProduct = async (req, res) => {
       select: {
         product_id: true,
         pName: true,
+        sale: true,
+        discount: true,
         categories: {
           select: {
             Category: {
@@ -81,6 +83,14 @@ export const getAllProduct = async (req, res) => {
             },
           },
         },
+
+        ratings: {
+          select: {
+            rating_id: true,
+            value: true,
+            review: true,
+          },
+        },
         stock: {
           select: {
             stock_id: true,
@@ -99,6 +109,13 @@ export const getAllProduct = async (req, res) => {
     const formattedProducts = products.map((product) => ({
       product_id: product.product_id,
       pName: product.pName,
+      sale: product.sale,
+      discount: product.discount,
+      rattings: product.ratings.map((r) => ({
+        ratting_id: r.rating_id,
+        value: r.value,
+        review: r.review,
+      })),
       categories: product.categories.map((c) => ({
         category_id: c.Category.category_id,
         category_name: c.Category.category_name,
@@ -147,14 +164,12 @@ export const getAllProduct = async (req, res) => {
 
 export const getProductById = async (req, res) => {
   const productId = parseInt(req.params["id"]);
-  if(isNaN(productId)) return res
-  .status(404)
-  .json({
-    status: 404,
-    type: "HttpException",
-    msg: "Product not found",
-  }); 
-  
+  if (isNaN(productId))
+    return res.status(404).json({
+      status: 404,
+      type: "HttpException",
+      msg: "Product not found",
+    });
 
   try {
     const product = await prisma.product.findUnique({
@@ -205,13 +220,11 @@ export const getProductById = async (req, res) => {
       },
     });
     if (!product)
-      return res
-        .status(404)
-        .json({
-          status: 404,
-          type: "BadResponseException",
-          msg: "Product not found",
-        });
+      return res.status(404).json({
+        status: 404,
+        type: "BadResponseException",
+        msg: "Product not found",
+      });
     const formattedProduct = {
       product_id: product.product_id,
       pName: product.pName,
@@ -237,7 +250,7 @@ export const getProductById = async (req, res) => {
       })),
     };
 
-    return res.status(200).json({ data: { formattedProduct } });
+    return res.status(200).json({ data: formattedProduct });
   } catch (error) {
     console.log(error);
     return res
