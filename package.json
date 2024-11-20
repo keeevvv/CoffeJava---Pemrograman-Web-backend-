@@ -23,6 +23,8 @@
     "mysql": "^2.18.1"
   },
   "devDependencies": {
-    "prisma": "^5.22.0"
+    "@mermaid-js/mermaid-cli": "^11.4.0",
+    "prisma": "^5.22.0",
+    "prisma-erd-generator": "^1.11.2"
   }
 }

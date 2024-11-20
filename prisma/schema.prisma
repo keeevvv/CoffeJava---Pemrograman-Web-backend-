@@ -38,6 +38,8 @@ model Product {
   product_id                Int                      @id @default(autoincrement())
   pName                     String
   location                  String
+  desc                      String  @default("No description available")
+  brand                     String  @default("Unknown")
   weight                    Float
   categories                ProductCategory[]        // Relation to the ProductCategory join table
   subcategories             ProductSubCategory[]     // Relation to the ProductSubCategory join table
@@ -48,6 +50,8 @@ model Product {
   discount                  Float?                   // Diskon dalam persen (0-100), opsional, diisi jika sale = true
   ratings                   Rating[]                 // Relasi 1-to-many ke model Rating
 }
+
+
 
 model Rating {
   rating_id                 Int                      @id @default(autoincrement())
@@ -128,6 +132,10 @@ model Image {
   image_url      String    // URL of the product image
 
   Product        Product   @relation("ProductImages", fields: [product_id], references: [product_id], onDelete: Cascade)
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
 }
 
 
