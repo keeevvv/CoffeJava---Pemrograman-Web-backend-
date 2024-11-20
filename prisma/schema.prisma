@@ -22,6 +22,7 @@ model User {
   tanggalLahir DateTime
   gender       String
   token        Token[]
+  ratings      Rating[]     // Relasi 1-to-many ke model Rating
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 }
@@ -54,6 +55,8 @@ model Rating {
   review                    String?                  // Ulasan dari user (opsional)
   product                   Product                  @relation(fields: [product_id], references: [product_id])
   product_id                Int                      // Foreign key ke Product
+    user                      User                     @relation(fields: [user_id], references: [id])  // Relasi dengan User
+  user_id                   String                   // Foreign key ke User
   createdAt                 DateTime                 @default(now()) // Waktu pembuatan rating
 }
 

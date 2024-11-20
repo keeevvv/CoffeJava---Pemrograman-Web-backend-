@@ -8,6 +8,7 @@ import {
 
 import {
   getAllProduct,
+  getPopulerProduct,
   getProductById,
 } from "../controller/productsController.js";
 import { verifyToken } from "../middlewares/VerifyToken.js";
@@ -22,5 +23,6 @@ router.delete("/api/v1/logout", Logout);
 //products
 router.get("/api/v1/products", getAllProduct);
 router.get("/api/v1/product/:id", getProductById);
+router.get("/api/v1/products/popular", getPopulerProduct);
 
 export default router;
