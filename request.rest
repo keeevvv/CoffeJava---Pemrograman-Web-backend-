@@ -31,7 +31,7 @@ DELETE http://localhost:3000/api/v1/logout
 
 ### Mengambil daftar produk favorit user
 GET http://localhost:3000/favorites
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5N2VlNDBmLTY2OTktNDNhZS04NzdkLWRhNjMxNGQwZWQzMSIsImVtYWlsIjoibWFtYXRAZW1haWwuY29tIiwibmFtYSI6Ik1hbWF0IFNlbnRvc2EiLCJpYXQiOjE3MzI4NjgzMTUsImV4cCI6MTczMjg2ODMzMH0.0yoiLUfpKh4hqMB80aObwHjz6AXm99D-oCDcmjTbtac
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5N2VlNDBmLTY2OTktNDNhZS04NzdkLWRhNjMxNGQwZWQzMSIsImVtYWlsIjoibWFtYXRAZW1haWwuY29tIiwibmFtYSI6Ik1hbWF0IFNlbnRvc2EiLCJpYXQiOjE3MzI4ODQ0ODAsImV4cCI6MTczMjg4NDQ5NX0.Chbv6AmjjMvulLfT_Ip9KDJcfyx71d2048O3wY7dPYk
 
 ###
 
@@ -48,9 +48,9 @@ Content-Type: application/json
 
 ### Menghapus produk dari daftar favorit
 DELETE http://localhost:3000/favorites
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5N2VlNDBmLTY2OTktNDNhZS04NzdkLWRhNjMxNGQwZWQzMSIsImVtYWlsIjoibWFtYXRAZW1haWwuY29tIiwibmFtYSI6Ik1hbWF0IFNlbnRvc2EiLCJpYXQiOjE3MzI4NjgzMTUsImV4cCI6MTczMjg2ODMzMH0.0yoiLUfpKh4hqMB80aObwHjz6AXm99D-oCDcmjTbtac
+Authorization: Bearer 
 Content-Type: application/json
 
 {
-  "productId": 4
+  "productId": 12
 }

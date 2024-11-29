@@ -46,6 +46,17 @@ export const removeFromFavorites = async (req, res) => {
   const userId = req.userId; 
   const { productId } = req.body;
   try {
+    const favoriteExists = await prisma.favorite.findFirst({
+      where: {
+        user_id: userId,
+        product_id: productId,
+      },
+    });
+
+    if (!favoriteExists) {
+      return res.status(404).json({ message: "Product not found in favorites" });
+    }
+
     await prisma.favorite.deleteMany({
       where: {
         user_id: userId,
