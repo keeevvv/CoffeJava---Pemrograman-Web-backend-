@@ -11,6 +11,14 @@ import {
   getPopulerProduct,
   getProductById,
 } from "../controller/productsController.js";
+
+import {
+  getUserFavorites,
+  addToFavorites,
+  removeFromFavorites,
+} from "../controller/FavoriteController.js";
+
+
 import { verifyToken } from "../middlewares/VerifyToken.js";
 import { refreshToken } from "../controller/RefreshTokenController.js";
 const router = express.Router();
@@ -24,5 +32,10 @@ router.delete("/api/v1/logout", Logout);
 router.get("/api/v1/products", getAllProduct);
 router.get("/api/v1/product/:id", getProductById);
 router.get("/api/v1/products/popular", getPopulerProduct);
+
+//favorite
+router.get("/favorites", verifyToken, getUserFavorites); 
+router.post("/favorites", verifyToken, addToFavorites);
+router.delete("/favorites", verifyToken, removeFromFavorites);
 
 export default router;

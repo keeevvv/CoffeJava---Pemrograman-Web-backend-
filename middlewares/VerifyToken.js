@@ -9,6 +9,7 @@ export const verifyToken = (req, res, next) => {
   jwt.verify(token, process.env.ACCESS_TOKEN, (err, decode) => {
     if (err) return res.sendStatus(403);
     req.email = decode.email;
+    req.userId = decode.id;
     next();
   });
 };
