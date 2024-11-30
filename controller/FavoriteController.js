@@ -1,9 +1,10 @@
 import { PrismaClient } from "@prisma/client";
+import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 // Menampilkan daftar produk favorit user
 export const getUserFavorites = async (req, res) => {
-  const userId = req.userId; 
+  const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).userId;
   try {
     const favorites = await prisma.favorite.findMany({
       where: { user_id: userId },
@@ -17,7 +18,7 @@ export const getUserFavorites = async (req, res) => {
 
 // Menambah produk ke daftar favorit
 export const addToFavorites = async (req, res) => {
-  const userId = req.userId; 
+  const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).userId;
   const { productId } = req.body;
   try {
     const existing = await prisma.favorite.findFirst({
@@ -43,7 +44,7 @@ export const addToFavorites = async (req, res) => {
 
 // Menghapus produk dari daftar favorit
 export const removeFromFavorites = async (req, res) => {
-  const userId = req.userId; 
+  const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).userId;
   const { productId } = req.body;
   try {
     const favoriteExists = await prisma.favorite.findFirst({

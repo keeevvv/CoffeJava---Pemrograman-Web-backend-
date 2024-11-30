@@ -31,26 +31,26 @@ DELETE http://localhost:3000/api/v1/logout
 
 ### Mengambil daftar produk favorit user
 GET http://localhost:3000/favorites
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5N2VlNDBmLTY2OTktNDNhZS04NzdkLWRhNjMxNGQwZWQzMSIsImVtYWlsIjoibWFtYXRAZW1haWwuY29tIiwibmFtYSI6Ik1hbWF0IFNlbnRvc2EiLCJpYXQiOjE3MzI4ODQ0ODAsImV4cCI6MTczMjg4NDQ5NX0.Chbv6AmjjMvulLfT_Ip9KDJcfyx71d2048O3wY7dPYk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OTdlZTQwZi02Njk5LTQzYWUtODc3ZC1kYTYzMTRkMGVkMzEiLCJuYW1lIjoiTWFtYXQgU2VudG9zYSIsImVtYWlsVXNlciI6Im1hbWF0QGVtYWlsLmNvbSIsImlhdCI6MTczMjkzMzI2NCwiZXhwIjoxNzM0MjI5MjY0fQ.Siq-WeNEj9CiNVtQL7J8NMwTlplw52Z3sg5-eo_LQIM
 
 ###
 
 ### Menambahkan produk ke daftar favorit
 POST http://localhost:3000/favorites
-Authorization: Bearer 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OTdlZTQwZi02Njk5LTQzYWUtODc3ZC1kYTYzMTRkMGVkMzEiLCJuYW1lIjoiTWFtYXQgU2VudG9zYSIsImVtYWlsVXNlciI6Im1hbWF0QGVtYWlsLmNvbSIsImlhdCI6MTczMjkzMzI2NCwiZXhwIjoxNzM0MjI5MjY0fQ.Siq-WeNEj9CiNVtQL7J8NMwTlplw52Z3sg5-eo_LQIM
 Content-Type: application/json
 
 {
-  "productId": 8
+  "productId": 10
 }
 
 ###
 
 ### Menghapus produk dari daftar favorit
 DELETE http://localhost:3000/favorites
-Authorization: Bearer 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OTdlZTQwZi02Njk5LTQzYWUtODc3ZC1kYTYzMTRkMGVkMzEiLCJuYW1lIjoiTWFtYXQgU2VudG9zYSIsImVtYWlsVXNlciI6Im1hbWF0QGVtYWlsLmNvbSIsImlhdCI6MTczMjkzMzI2NCwiZXhwIjoxNzM0MjI5MjY0fQ.Siq-WeNEj9CiNVtQL7J8NMwTlplw52Z3sg5-eo_LQIM
 Content-Type: application/json
 
 {
-  "productId": 12
+  "productId": 20
 }
