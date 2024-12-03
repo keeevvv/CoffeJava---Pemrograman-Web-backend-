@@ -3,20 +3,20 @@ POST http://localhost:3000/api/v1/register
 Content-Type: application/json
 
 {
-    "nama": "John Doe3",
-    "email": "johndoe3@example.com",
-    "password": "password123",
-    "confirmPassword": "password123",
+    "nama": "Mamat Sentosa",
+    "email": "mamat@email.com",
+    "password": "ayamnaikHaji",
+    "confirmPassword": "ayamnaikHaji",
     "gender": "male",
-    "tanggalLahir": "1990-01-01"
+    "tanggalLahir": "1994-06-10"
 }
 ### Login User
 POST http://localhost:3000/api/v1/login
 Content-Type: application/json
 
 {
-    "email": "johndoe3@example.com",
-    "password": "password123"
+    "email": "mamat@email.com",
+    "password": "ayamnaikHaji"
 }
 
 ### get all user
@@ -27,6 +27,34 @@ GET http://localhost:3000/api/v1/token
 
 ### Logout
 DELETE http://localhost:3000/api/v1/logout
+
+
+### Mengambil daftar produk favorit user
+GET http://localhost:3000/favorites
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OTdlZTQwZi02Njk5LTQzYWUtODc3ZC1kYTYzMTRkMGVkMzEiLCJuYW1lIjoiTWFtYXQgU2VudG9zYSIsImVtYWlsVXNlciI6Im1hbWF0QGVtYWlsLmNvbSIsImlhdCI6MTczMjkzMzI2NCwiZXhwIjoxNzM0MjI5MjY0fQ.Siq-WeNEj9CiNVtQL7J8NMwTlplw52Z3sg5-eo_LQIM
+
+###
+
+### Menambahkan produk ke daftar favorit
+POST http://localhost:3000/favorites
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OTdlZTQwZi02Njk5LTQzYWUtODc3ZC1kYTYzMTRkMGVkMzEiLCJuYW1lIjoiTWFtYXQgU2VudG9zYSIsImVtYWlsVXNlciI6Im1hbWF0QGVtYWlsLmNvbSIsImlhdCI6MTczMjkzMzI2NCwiZXhwIjoxNzM0MjI5MjY0fQ.Siq-WeNEj9CiNVtQL7J8NMwTlplw52Z3sg5-eo_LQIM
+Content-Type: application/json
+
+{
+  "productId": 10
+}
+
+###
+
+### Menghapus produk dari daftar favorit
+DELETE http://localhost:3000/favorites
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OTdlZTQwZi02Njk5LTQzYWUtODc3ZC1kYTYzMTRkMGVkMzEiLCJuYW1lIjoiTWFtYXQgU2VudG9zYSIsImVtYWlsVXNlciI6Im1hbWF0QGVtYWlsLmNvbSIsImlhdCI6MTczMjkzMzI2NCwiZXhwIjoxNzM0MjI5MjY0fQ.Siq-WeNEj9CiNVtQL7J8NMwTlplw52Z3sg5-eo_LQIM
+Content-Type: application/json
+
+{
+  "productId": 20
+}
+
 
 ### Save Cart
 POST  http://localhost:3000/api/v1/checkout
