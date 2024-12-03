@@ -22,7 +22,9 @@ model User {
   tanggalLahir DateTime
   gender       String
   token        Token[]
-  ratings      Rating[]     // Relasi 1-to-many ke model Rating
+  carts Cart[]
+  order Order[]
+  shippingAddress ShippingAddress[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 }
@@ -38,30 +40,15 @@ model Product {
   product_id                Int                      @id @default(autoincrement())
   pName                     String
   location                  String
-  desc                      String  @default("No description available")
-  brand                     String  @default("Unknown")
   weight                    Float
+  price                     Float
   categories                ProductCategory[]        // Relation to the ProductCategory join table
   subcategories             ProductSubCategory[]     // Relation to the ProductSubCategory join table
   specificSubCategories     ProductSpecificSubCategory[] // Relation to the ProductSpecificSubCategory join table
   stock                     Stock[]                  @relation("ProductStocks")
   images                    Image[]                  @relation("ProductImages")
-  sale                      Boolean                  @default(false) // Indikator apakah produk sedang diskon
-  discount                  Float?                   // Diskon dalam persen (0-100), opsional, diisi jika sale = true
-  ratings                   Rating[]                 // Relasi 1-to-many ke model Rating
-}
-
-
-
-model Rating {
-  rating_id                 Int                      @id @default(autoincrement())
-  value                     Float                    // Nilai rating, misalnya 1.0 hingga 5.0
-  review                    String?                  // Ulasan dari user (opsional)
-  product                   Product                  @relation(fields: [product_id], references: [product_id])
-  product_id                Int                      // Foreign key ke Product
-    user                      User                     @relation(fields: [user_id], references: [id])  // Relasi dengan User
-  user_id                   String                   // Foreign key ke User
-  createdAt                 DateTime                 @default(now()) // Waktu pembuatan rating
+  cart_items CartItem[]
+  order_items OrderItem[]
 }
 
 model Category {
@@ -134,8 +121,71 @@ model Image {
   Product        Product   @relation("ProductImages", fields: [product_id], references: [product_id], onDelete: Cascade)
 }
 
-generator erd {
-  provider = "prisma-erd-generator"
+model Cart {
+    cart_id Int @id @default(autoincrement())
+    cart_items CartItem[]
+
+    user_id String 
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model CartItem {
+    cart_item_id Int @id @default(autoincrement())
+    quantity Int @default(0)
+    total_price Float
+
+    product_id Int
+    product Product @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
+
+    cart_id Int
+    cart Cart @relation(fields: [cart_id], references: [cart_id], onDelete: Cascade)
+
+    @@unique([cart_id, product_id]) // Pastikan cart_id dan product_id unik bersama
+}
+
+
+model ShippingAddress {
+  shipping_id Int @id @default(autoincrement())
+  address String
+  city String
+  country String
+  postal String
+  courier String
+  cost Int
+  user_id String
+  user User @relation(fields: [user_id], references: [id], onDelete:Cascade)
+  
+
+  orders Order[]
+}
+
+model Order {
+   order_id String @id @default(uuid())
+   
+   status String @default("pending")
+
+   ordersItem OrderItem[]
+
+   shipping_id Int
+   shipping ShippingAddress @relation(fields: [shipping_id], references: [shipping_id], onDelete: Cascade)
+
+   user_id String 
+   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+   createdAt DateTime @default(now())
+}
+
+model OrderItem {
+   order_item String @id @default(uuid())
+
+   order_id String
+   order Order @relation(fields: [order_id], references: [order_id], onDelete: Cascade)
+
+   product_id Int
+   product Product @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
+
+   quantity Int
+   total_price Float
 }
 
 
