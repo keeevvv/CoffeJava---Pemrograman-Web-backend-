@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
+
 const prisma = new PrismaClient();
 export const getAllUser = async (req, res) => {
   try {
@@ -14,7 +15,7 @@ export const getAllUser = async (req, res) => {
         tanggalLahir: true,
       },
     });
-    res.json(users); // Mengirimkan data users dalam bentuk JSON
+    res.status(200).json(users); // Mengirimkan data users dalam bentuk JSON
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Internal server error" });
@@ -55,6 +56,12 @@ export const Register = async (req, res) => {
       },
     });
 
+    await prisma.cart.create({
+      data: {
+        user_id: newUser.id
+      }
+    })
+
     return res.status(201).json({ msg: "User registered successfully" });
   } catch (error) {
     console.error(error);
@@ -65,32 +72,26 @@ export const Register = async (req, res) => {
 };
 
 export const Login = async (req, res) => {
-  console.log(req.headers["authorization"]);
   const { email, password } = req.body;
   try {
-    const User = await prisma.user.findUnique({
-      where: { email },
-    });
-    if (!User)
-      return res
-        .status(404)
-        .json({ msg: `User with email ${email} not found` });
+    const User = await prisma.user.findUnique({ where: { email } });
+    if (!User) return res.status(404).json({ msg: `User with email ${email} not found` });
 
     const match = await bcrypt.compare(password, User.password);
     if (!match) return res.status(400).json({ msg: "Wrong password" });
 
-    const userId = User.id;
+    const userId = User.id; // Mengambil UUID dari model User
     const name = User.nama;
     const emailUser = User.email;
 
     // Generate access and refresh tokens
     const accessToken = jwt.sign(
-      { userId, name, emailUser },
+      { id: userId, name, email: emailUser }, // Pastikan id, name, dan email diteruskan ke token
       process.env.ACCESS_TOKEN,
-      { expiresIn: "15s" }
+      { expiresIn: "15d" }
     );
     const refreshToken = jwt.sign(
-      { userId, name, emailUser },
+      { id: userId, name, email: emailUser }, // Pastikan id, name, dan email diteruskan ke token
       process.env.REFRESH_TOKEN,
       { expiresIn: "30d" }
     );
@@ -116,6 +117,7 @@ export const Login = async (req, res) => {
     return res.status(500).json({ msg: "Internal server error" });
   }
 };
+
 
 export const Logout = async (req, res) => {
   try {
@@ -165,3 +167,5 @@ export const Logout = async (req, res) => {
     return res.status(500).json({ msg: "Internal server error" });
   }
 };
+
+

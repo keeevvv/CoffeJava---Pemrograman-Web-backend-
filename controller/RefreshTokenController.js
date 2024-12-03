@@ -12,7 +12,8 @@ export const refreshToken = async (req, res) => {
         RefreshToken: token,
       },
       include: {
-        user: true, // Termasuk data user yang terkait dengan token
+        user: true, 
+        
       },
     });
 
@@ -32,7 +33,7 @@ export const refreshToken = async (req, res) => {
           nama: user.nama,
         },
         process.env.ACCESS_TOKEN,
-        { expiresIn: "15s" }
+        { expiresIn: "15d" }
       );
       res.json({ accessToken });
     });

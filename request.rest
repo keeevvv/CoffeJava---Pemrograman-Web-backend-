@@ -3,27 +3,179 @@ POST http://localhost:3000/api/v1/register
 Content-Type: application/json
 
 {
-    "nama": "John Doe3",
-    "email": "johndoe3@example.com",
-    "password": "password123",
-    "confirmPassword": "password123",
+    "nama": "Mamat Sentosa",
+    "email": "mamat@email.com",
+    "password": "ayamnaikHaji",
+    "confirmPassword": "ayamnaikHaji",
     "gender": "male",
-    "tanggalLahir": "1990-01-01"
+    "tanggalLahir": "1994-06-10"
 }
 ### Login User
 POST http://localhost:3000/api/v1/login
 Content-Type: application/json
 
 {
-    "email": "johndoe3@example.com",
-    "password": "password123"
+    "email": "mamat@email.com",
+    "password": "ayamnaikHaji"
 }
 
 ### get all user
 GET http://localhost:3000/api/v1/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhMzJjNzE1Ni02ODVlLTQzMjUtODE0My0xYzczMzdkMmRkNmIiLCJuYW1lIjoiSm9obiBEb2UiLCJlbWFpbFVzZXIiOiJqb2huZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNzMxMTYyMzc5LCJleHAiOjE3MzExNjIzOTR9.eDBFVKAdXVl3SKgmtul4YZc0L1Xa08hVA9x3C1fZ8aI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
 #### token
 GET http://localhost:3000/api/v1/token
 
 ### Logout
 DELETE http://localhost:3000/api/v1/logout
+
+
+### Mengambil daftar produk favorit user
+GET http://localhost:3000/favorites
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OTdlZTQwZi02Njk5LTQzYWUtODc3ZC1kYTYzMTRkMGVkMzEiLCJuYW1lIjoiTWFtYXQgU2VudG9zYSIsImVtYWlsVXNlciI6Im1hbWF0QGVtYWlsLmNvbSIsImlhdCI6MTczMjkzMzI2NCwiZXhwIjoxNzM0MjI5MjY0fQ.Siq-WeNEj9CiNVtQL7J8NMwTlplw52Z3sg5-eo_LQIM
+
+###
+
+### Menambahkan produk ke daftar favorit
+POST http://localhost:3000/favorites
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OTdlZTQwZi02Njk5LTQzYWUtODc3ZC1kYTYzMTRkMGVkMzEiLCJuYW1lIjoiTWFtYXQgU2VudG9zYSIsImVtYWlsVXNlciI6Im1hbWF0QGVtYWlsLmNvbSIsImlhdCI6MTczMjkzMzI2NCwiZXhwIjoxNzM0MjI5MjY0fQ.Siq-WeNEj9CiNVtQL7J8NMwTlplw52Z3sg5-eo_LQIM
+Content-Type: application/json
+
+{
+  "productId": 10
+}
+
+###
+
+### Menghapus produk dari daftar favorit
+DELETE http://localhost:3000/favorites
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OTdlZTQwZi02Njk5LTQzYWUtODc3ZC1kYTYzMTRkMGVkMzEiLCJuYW1lIjoiTWFtYXQgU2VudG9zYSIsImVtYWlsVXNlciI6Im1hbWF0QGVtYWlsLmNvbSIsImlhdCI6MTczMjkzMzI2NCwiZXhwIjoxNzM0MjI5MjY0fQ.Siq-WeNEj9CiNVtQL7J8NMwTlplw52Z3sg5-eo_LQIM
+Content-Type: application/json
+
+{
+  "productId": 20
+}
+
+
+### Save Cart
+POST  http://localhost:3000/api/v1/checkout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Content-Type: application/json
+
+{
+    "quantity":3,
+    "product_id": 2
+}
+
+### get all Cart
+GET http://localhost:3000/api/v1/checkout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+
+
+### update quantity
+PUT http://localhost:3000/api/v1/checkout/update
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Content-Type: application/json
+
+{
+    "itemId": 1,
+    "qty": 3
+}
+
+### delete all item
+DELETE  http://localhost:3000/api/v1/checkout/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Content-Type: application/json
+
+{
+    "cart_id": 1
+}
+
+### delete item by id
+DELETE  http://localhost:3000/api/v1/checkout/delete/:id
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Content-Type: application/json
+
+{
+    "itemId": 7
+}
+
+
+
+### Get All Orders
+GET http://localhost:3000/api/v1/order
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+
+### Get Order By ID
+GET http://localhost:3000/api/v1/order/:id
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+
+### Make Shipping Address
+POST http://localhost:3000/api/v1/shipping
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+
+{
+  "address": "123 Street",
+  "city": "City",
+  "country": "Country",
+  "postal": "12345",
+  "courier": "Courier",
+  "cost": 50000
+}
+
+### Make Order
+POST http://localhost:3000/api/v1/order
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Content-Type: application/json
+
+{
+  "shipping_id": 2,
+  "ordersItem": [
+    {
+      "product_id": 1,
+      "quantity": 3,
+      "total_price": 600000
+    }
+  ]
+}
+
+
+### Proses Transaksi
+POST http://localhost:3000/api/v1/transaction
+Content-Type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+
+{
+  "shipping_id": 2,
+  "payment_type": "bca_va",
+  "customer_details": {
+    "first_name": "John Doe3",
+    "email": "johndoe3@example.com"
+  }
+}
+
+### Pembayaran Sukses
+POST http://localhost:3000/api/v1/transaction/success
+Content-Type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+
+{
+  "transaction": {
+    "orderId": "4414c346-3696-47d2-add7-7429a888eb2d",
+    "fraud_status": "accept",
+    "transaction_status": "settlement"
+  }
+}
+
+### Update Order Status
+PUT http://localhost:3000/api/v1/status
+Content-Type: application/json
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+
+{
+  "status": "dikirim"
+}
+
+
+
+ 
