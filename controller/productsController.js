@@ -50,6 +50,7 @@ export const getAllProduct = async (req, res) => {
       where,
       select: {
         product_id: true,
+        price: true,
         pName: true,
         sale: true,
         discount: true,
