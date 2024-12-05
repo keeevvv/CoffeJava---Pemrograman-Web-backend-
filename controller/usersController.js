@@ -12,7 +12,7 @@ export const getAllUser = async (req, res) => {
         email: true,
         nama: true,
         tanggalLahir: true,
-        profileImage: true
+        profileImage: true,
       },
     });
     res.status(200).json(users); // Mengirimkan data users dalam bentuk JSON
@@ -86,16 +86,16 @@ export const Login = async (req, res) => {
     const userId = User.id; // Mengambil UUID dari model User
     const name = User.nama;
     const emailUser = User.email;
-    const profileImage =  User.profileImage;
+    const profileImage = User.profileImage;
 
     // Generate access and refresh tokens
     const accessToken = jwt.sign(
-      { id: userId, name, email: emailUser,profileImage }, // Pastikan id, name, dan email diteruskan ke token
+      { id: userId, name, email: emailUser, profileImage }, // Pastikan id, name, dan email diteruskan ke token
       process.env.ACCESS_TOKEN,
       { expiresIn: "15d" }
     );
     const refreshToken = jwt.sign(
-      { id: userId, name, email: emailUser,profileImage }, // Pastikan id, name, dan email diteruskan ke token
+      { id: userId, name, email: emailUser, profileImage }, // Pastikan id, name, dan email diteruskan ke token
       process.env.REFRESH_TOKEN,
       { expiresIn: "30d" }
     );
