@@ -16,6 +16,7 @@ datasource db {
 model User {
   id           String     @unique @default(uuid())
   nama         String
+  profileImage String?
   email        String     @unique
   password     String
   tanggalLahir DateTime
@@ -40,9 +41,13 @@ model Token {
 model Product {
   product_id                Int                      @id @default(autoincrement())
   pName                     String
+  sale                      Boolean?
+  discount                  Float?
   location                  String
   weight                    Float
   price                     Float
+  brand                     String
+  desc                      String
   categories                ProductCategory[]        // Relation to the ProductCategory join table
   subcategories             ProductSubCategory[]     // Relation to the ProductSubCategory join table
   specificSubCategories     ProductSpecificSubCategory[] // Relation to the ProductSpecificSubCategory join table
