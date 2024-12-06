@@ -4,6 +4,7 @@ import {
   Login,
   getAllUser,
   Logout,
+  changePassword,
 } from "../controller/usersController.js";
 
 import { getAllCart, changeQTY, deleteAllItem, saveCart, deleteSingleItem } from "../controller/cartController.js";
@@ -31,6 +32,7 @@ const router = express.Router();
 
 //users
 router.post("/api/v1/register", Register);
+router.put("/api/v1/:id/change-password", changePassword);
 router.post("/api/v1/login", Login);
 router.get("/api/v1/users", verifyToken, getAllUser);
 router.get("/api/v1/token", refreshToken);

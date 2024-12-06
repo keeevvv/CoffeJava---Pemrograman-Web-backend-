@@ -120,6 +120,7 @@ export const Login = async (req, res) => {
 
 
 export const Logout = async (req, res) => {
+
   try {
     const authHeader = req.headers["authorization"]; // Untuk Flutter
 
@@ -169,3 +170,41 @@ export const Logout = async (req, res) => {
 };
 
 
+export const changePassword = async (req, res) => {
+  const { id } = req.params;
+  const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    const match = await bcrypt.compare(currentPassword, user.password);
+    if (!match) {
+      return res.status(400).json({ msg: "Current password is incorrect" });
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return res
+        .status(400)
+        .json({ msg: "New password and confirm new password do not match" });
+    }
+
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(newPassword, salt);
+
+    await prisma.user.update({
+      where: { id },
+      data: { password: hashPassword },
+    });
+
+    res.status(200).json({ msg: "Password updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Internal server error" });
+  }
+};
