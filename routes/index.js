@@ -39,7 +39,7 @@ router.delete("/api/v1/logout", Logout);
 //products
 router.get("/api/v1/products", getAllProduct);
 router.get("/api/v1/product/:id", getProductById);
-router.get("/api/v1/products/popular", getPopulerProduct);
+
 
 //favorite
 router.get("/favorites", verifyToken, getUserFavorites); 

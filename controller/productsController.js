@@ -54,8 +54,8 @@ export const getAllProduct = async (req, res) => {
         pName: true,
         sale: true,
         discount: true,
-        brand:true,
-        desc:true,
+        brand: true,
+        desc: true,
 
         categories: {
           select: {
@@ -120,8 +120,9 @@ export const getAllProduct = async (req, res) => {
       pName: product.pName,
       sale: product.sale,
       discount: product.discount,
-      brand:product.brand,
-      decs:product.desc,
+      brand: product.brand,
+      decs: product.desc,
+      price: product.price,
       rattings: product.ratings.map((r) => ({
         rating_id: r.rating_id,
         value: r.value,
@@ -191,8 +192,9 @@ export const getProductById = async (req, res) => {
         pName: true,
         discount: true,
         sale: true,
-        brand:true,
-        desc:true,
+        brand: true,
+        desc: true,
+        price:true,
 
         ratings: {
           select: {
@@ -256,10 +258,12 @@ export const getProductById = async (req, res) => {
       });
     const formattedProduct = {
       product_id: product.product_id,
+      pName: product.pName,
       sale: product.sale,
       discount: product.discount,
-      brand:product.brand,
-      decs:product.desc,
+      brand: product.brand,
+      decs: product.desc,
+      price: product.price,
       rattings: product.ratings.map((r) => ({
         rating_id: r.rating_id,
         value: r.value,
@@ -350,8 +354,8 @@ export const getPopulerProduct = async (req, res) => {
         pName: true,
         sale: true,
         discount: true,
-        brand:true,
-        desc:true,
+        brand: true,
+        desc: true,
 
         categories: {
           select: {
@@ -416,8 +420,8 @@ export const getPopulerProduct = async (req, res) => {
       pName: product.pName,
       sale: product.sale,
       discount: product.discount,
-      brand:product.brand,
-      decs:product.desc,
+      brand: product.brand,
+      decs: product.desc,
       rattings: product.ratings.map((r) => ({
         rating_id: r.rating_id,
         value: r.value,
