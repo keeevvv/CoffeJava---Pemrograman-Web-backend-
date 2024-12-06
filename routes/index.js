@@ -8,7 +8,7 @@ import {
 
 import { getAllCart, changeQTY, deleteAllItem, saveCart, deleteSingleItem } from "../controller/cartController.js";
 
-import { getAllOrders, getOrdersById, makeOrders, makeShippingAddress, updateStatus } from "../controller/orderController.js";
+import { getAllOrders, getOrdersById, makeShippingAddress, updateStatus } from "../controller/orderController.js";
 
 import { processTransaction, paymentSuccess } from "../controller/paymentController.js";
 
@@ -56,7 +56,6 @@ router.delete("/api/v1/checkout/delete/:id", verifyToken, deleteSingleItem);
 //order
 router.get("/api/v1/order", verifyToken, getAllOrders)
 router.get("/api/v1/order/:id", verifyToken, getOrdersById)
-router.post("/api/v1/order", verifyToken, makeOrders)
 router.put("/api/v1/status", verifyToken, updateStatus)
 router.post("/api/v1/shipping", verifyToken, makeShippingAddress)
 

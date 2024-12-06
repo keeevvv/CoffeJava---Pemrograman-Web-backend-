@@ -40,9 +40,13 @@ model Token {
 model Product {
   product_id                Int                      @id @default(autoincrement())
   pName                     String
+  sale                      Boolean?
+  discount                  Float?
   location                  String
   weight                    Float
   price                     Float
+  brand                     String
+  desc                      String
   categories                ProductCategory[]        // Relation to the ProductCategory join table
   subcategories             ProductSubCategory[]     // Relation to the ProductSubCategory join table
   specificSubCategories     ProductSpecificSubCategory[] // Relation to the ProductSpecificSubCategory join table
@@ -144,6 +148,7 @@ model Favorite {
   product     Product @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
   product_id  Int
 }
+
 model Cart {
     cart_id Int @id @default(autoincrement())
     cart_items CartItem[]
@@ -156,7 +161,7 @@ model CartItem {
     cart_item_id Int @id @default(autoincrement())
     quantity Int @default(0)
     total_price Float
-
+    size String
     product_id Int
     product Product @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
 
@@ -209,6 +214,7 @@ model OrderItem {
 
    quantity Int
    total_price Float
+   size String
 }
 
 

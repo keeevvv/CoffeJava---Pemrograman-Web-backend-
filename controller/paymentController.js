@@ -54,13 +54,14 @@ export async function processTransaction(req, res) {
             id: item.cart_item_id,
             price: item.product.price,
             quantity: item.quantity,
-            name: item.product.pName
+            name: item.product.pName,
+            size: item.size
         }));
 
         
         const newOrder = await prisma.order.create({
             data: {
-                status: 'dibayar',
+                status: 'paid',
                 user: {
                     connect: { id: existingUser.id }
                 },
@@ -71,7 +72,8 @@ export async function processTransaction(req, res) {
                     create: cart.cart_items.map(item => ({
                         product_id: item.product_id,
                         quantity: item.quantity,
-                        total_price: item.quantity * item.product.price
+                        total_price: item.quantity * item.product.price,
+                        size: item.size
                     }))
                 }
             }

@@ -62,8 +62,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3O
 Content-Type: application/json
 
 {
-    "quantity":3,
-    "product_id": 2
+    "quantity":2,
+    "product_id": 1,
+    "size": "XL"
 }
 
 ### get all Cart
@@ -78,7 +79,7 @@ Content-Type: application/json
 
 {
     "itemId": 1,
-    "qty": 3
+    "qty": 2
 }
 
 ### delete all item
@@ -96,7 +97,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3O
 Content-Type: application/json
 
 {
-    "itemId": 7
+    "itemId": 2
 }
 
 
@@ -120,23 +121,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3O
   "country": "Country",
   "postal": "12345",
   "courier": "Courier",
-  "cost": 50000
-}
-
-### Make Order
-POST http://localhost:3000/api/v1/order
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
-Content-Type: application/json
-
-{
-  "shipping_id": 2,
-  "ordersItem": [
-    {
-      "product_id": 1,
-      "quantity": 3,
-      "total_price": 600000
-    }
-  ]
+  "cost": 15000
 }
 
 
@@ -146,11 +131,11 @@ Content-Type: application/json
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
 
 {
-  "shipping_id": 2,
-  "payment_type": "bca_va",
+  "shipping_id": 1,
+  "payment_type": "bni_va",
   "customer_details": {
-    "first_name": "John Doe3",
-    "email": "johndoe3@example.com"
+    "first_name": "Mamat Sentosa",
+    "email": "mamat@email.com"
   }
 }
 
@@ -161,7 +146,7 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3
 
 {
   "transaction": {
-    "orderId": "4414c346-3696-47d2-add7-7429a888eb2d",
+    "orderId": "a99caa21-4e0e-4dfd-afd8-d968ea19c569",
     "fraud_status": "accept",
     "transaction_status": "settlement"
   }
@@ -173,7 +158,7 @@ Content-Type: application/json
 Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
 
 {
-  "status": "dikirim"
+  "status": "sent"
 }
 
 

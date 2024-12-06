@@ -1,4 +1,3 @@
-
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
@@ -38,11 +37,8 @@ export async function getOrdersById(req, res) {
     const user = req.user
     const orderId = req.params.order_id
 
-    // console.log('Request User:', user);  
-    // console.log('Request Order ID:', orderId)
 
     try {
-        // console.log('User:', user)
 
         let orders = await prisma.order.findFirst({
             where: {
@@ -61,71 +57,6 @@ export async function getOrdersById(req, res) {
     }catch(error) {
         console.error(error);
         res.status(400).json({ error });
-    }
-}
-
-
-export async function makeOrders(req, res) {
-    // console.log('Request User:', req.user);
-    // console.log('Request Body:', req.body);
-
-    const user = req.user;
-    const { shipping_id, ordersItem } = req.body;
-
-    try {
-        // Validate user
-        if (!user || !user.sub) {
-            return res.status(401).json({ error: "Authentication failed: User not found" });
-        }
-
-        // Verify user exists in database
-        const existingUser = await prisma.user.findFirst({
-            where: {
-                id: user.id
-            }
-        });
-
-        if (!existingUser) {
-            return res.status(404).json({ error: "User not found in database",
-                details: {
-                    id: user.id,
-                    nama:user.nama
-                }
-             });
-        }
-
-        // Verify shipping address
-        const checkShipping = await prisma.shippingAddress.findFirst({
-            where: { shipping_id: shipping_id }
-        });
-
-        if (!checkShipping) {
-            return res.status(404).json({ error: "Shipping address not found" });
-        }
-
-        // Create order using direct ID assignment
-        const newOrder = await prisma.order.create({
-            data: {
-                status: 'pending',
-                shipping_id: shipping_id,
-                user_id: existingUser.id,
-                ordersItem: {
-                    create: ordersItem.map(item => ({
-                        product_id: item.product_id,
-                        quantity: item.quantity,
-                        total_price: item.total_price
-                    }))
-                }
-            }
-        });
-
-        res.status(201).json(newOrder);
-    } catch (error) {
-        console.error('Order Creation Error:', error);
-        res.status(500).json({ 
-            error: error.message || "Internal server error",
-            details: error
-        });
     }
 }
 
