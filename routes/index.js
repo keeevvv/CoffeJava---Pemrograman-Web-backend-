@@ -4,6 +4,7 @@ import {
   Login,
   getAllUser,
   Logout,
+  changePassword,
   editUser,
 } from "../controller/usersController.js";
 
@@ -46,6 +47,7 @@ const router = express.Router();
 
 //users
 router.post("/api/v1/register", Register);
+router.put("/api/v1/:id/change-password", changePassword);
 router.post("/api/v1/login", Login);
 router.get("/api/v1/users", verifyToken, getAllUser);
 router.get("/api/v1/token", refreshToken);

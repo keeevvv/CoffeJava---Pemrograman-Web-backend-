@@ -123,6 +123,7 @@ export const Login = async (req, res) => {
 };
 
 export const Logout = async (req, res) => {
+
   try {
     const authHeader = req.headers["authorization"]; // Untuk Flutter
 
@@ -196,6 +197,7 @@ export const editUser = async (req, res) => {
       },
     });
 
+
     res.status(200).json({
       msg: "User updated successfully",
       user: {
@@ -211,7 +213,6 @@ export const editUser = async (req, res) => {
     res.status(500).json({ msg: "Internal server error" });
   }
 };
-
 export const changePassword = async (req, res) => {
   const { id } = req.params;
   const { currentPassword, newPassword, confirmNewPassword } = req.body;
@@ -250,3 +251,4 @@ export const changePassword = async (req, res) => {
     res.status(500).json({ msg: "Internal server error" });
   }
 };
+
