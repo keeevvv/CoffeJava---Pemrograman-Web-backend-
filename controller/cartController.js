@@ -16,7 +16,7 @@ export async function getAllCart(req, res) {
 
         let data = await prisma.cart.findFirst({
             where: {
-                id: user.id
+                user_id: user.id
             },
             include: {
                 cart_items: {
@@ -24,8 +24,17 @@ export async function getAllCart(req, res) {
                         cart_item_id: true,
                         quantity: true,
                         total_price: true,
-                        product_id: true,
-                        cart_id: true
+                        size: true,
+                        cart_id: true,
+                        product: {
+                            select: {
+                                product_id: true,
+                                pName: true,
+                                price: true,
+                                brand: true,
+                                desc: true,
+                            }
+                        }
                     }
                 }
             }
@@ -42,7 +51,14 @@ export async function getAllCart(req, res) {
                            cart_item_id: true,
                            quantity: true,
                            total_price: true,
-                           product_id: true
+                           size: true,
+                           product: {
+                                product_id: true,
+                                pName: true,
+                                price: true,
+                                brand: true,
+                                desc: true,
+                           }
                         }
                     }
                 }
@@ -58,7 +74,7 @@ export async function getAllCart(req, res) {
 
 export async function saveCart(req, res) {
     const user = req.user;
-    const { quantity, product_id } = req.body;
+    const { quantity, product_id, size } = req.body;
 
     try {
         const checkUser = await prisma.user.findFirst({
@@ -87,7 +103,8 @@ export async function saveCart(req, res) {
         const checkProduct = await prisma.cartItem.findFirst({
             where: {
                 product_id,
-                cart_id: cart.cart_id
+                cart_id: cart.cart_id,
+                size: size
             }
         });
 
@@ -100,10 +117,29 @@ export async function saveCart(req, res) {
             }
         });
 
+        const stockData = await prisma.stock.findFirst({
+            where: {
+                product_id: product_id,
+                size: size
+            }
+        })
+
         if (!productData) throw "Error, product not found";
+        if(!stockData) throw "Error, stock for the specified"
+        if(stockData.quantity < quantity) throw "Error, insufficient stock"
 
         // Hitung total harga
         const total_price = quantity * productData.price;
+
+        //kurangi quantity pada stok
+        await prisma.stock.update({
+            where: {
+                stock_id: stockData.stock_id,
+            },
+            data: {
+                quantity: stockData.quantity - quantity
+            }
+        })
 
         // Tambahkan item ke keranjang
         await prisma.cartItem.create({
@@ -111,7 +147,8 @@ export async function saveCart(req, res) {
                 quantity,
                 product_id,
                 cart_id: cart.cart_id,
-                total_price: total_price
+                total_price: total_price,
+                size: size
             }
         });
 

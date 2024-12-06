@@ -1,112 +1,85 @@
-
 import { PrismaClient } from '@prisma/client';
-
 import { faker } from '@faker-js/faker';
+
 const prisma = new PrismaClient();
 
 async function main() {
-  // Generate 20 categories
-  const categories = [];
-  for (let i = 0; i < 20; i++) {
-    const category = await prisma.category.create({
-      data: {
-        category_name: faker.commerce.department(),
-      },
-    });
-    categories.push(category);
-  }
+  // Fetch all categories, subcategories, and specific subcategories
+  const categories = await prisma.category.findMany();
+  const subCategories = await prisma.subCategory.findMany();
+  const specificSubCategories = await prisma.specificSubCategory.findMany();
 
-  // Generate 20 subcategories
-  const subCategories = [];
-  for (let i = 0; i < 20; i++) {
-    const subCategory = await prisma.subCategory.create({
-      data: {
-        sub_category_name: faker.commerce.department(),
-      },
-    });
-    subCategories.push(subCategory);
-  }
+  for (let i = 0; i < 100; i++) {
+    const randomCategories = getRandomItems(categories, 3, 5);
+    const randomSubCategories = getRandomItems(subCategories, 3, 5);
+    const randomSpecificSubCategories = getRandomItems(specificSubCategories, 3, 5);
 
-  // Generate 20 specific subcategories
-  const specificSubCategories = [];
-  for (let i = 0; i < 20; i++) {
-    const specificSubCategory = await prisma.specificSubCategory.create({
-      data: {
-        specific_sub_category_name: faker.commerce.productMaterial(),
-      },
-    });
-    specificSubCategories.push(specificSubCategory);
-  }
-
-  // Generate 20 products
-  const products = [];
-  for (let i = 0; i < 20; i++) {
-    const product = await prisma.product.create({
+    await prisma.product.create({
       data: {
         pName: faker.commerce.productName(),
-        location: faker.location.city(),
-        weight: parseFloat(faker.commerce.price(1, 100, 2)),
+        sale: faker.datatype.boolean(),
+        discount: faker.number.float({ min: 0, max: 100 }),
+        location: faker.address.city(),
+        weight: faker.number.float({ min: 0.1, max: 10 }),
+        price: faker.number.float({ min: 10, max: 1000 }),
+        brand: faker.company.name(),
+        desc: faker.lorem.paragraph(),
+        categories: {
+          create: randomCategories.map((category) => ({
+            category: {
+              connect: { id: category.id },
+            },
+          })),
+        },
+        subcategories: {
+          create: randomSubCategories.map((subcategory) => ({
+            subcategory: {
+              connect: { id: subcategory.id },
+            },
+          })),
+        },
+        specificSubCategories: {
+          create: randomSpecificSubCategories.map((specificSubCategory) => ({
+            specificSubCategory: {
+              connect: { id: specificSubCategory.id },
+            },
+          })),
+        },
+        stock: {
+          create: [
+            {
+              size: faker.helpers.arrayElement(['S', 'M', 'L', 'XL']),
+              quantity: faker.number.int({ min: 1, max: 100 }),
+            },
+          ],
+        },
+        images: {
+          create: Array.from({ length: faker.number.int({ min: 3, max: 5 }) }).map(() => ({
+            url: faker.image.url(),
+          })),
+        },
+        ratings: {
+          create: [
+            {
+              value: faker.number.int({ min: 1, max: 5 }),
+              review: faker.lorem.sentence(),
+              user: {
+                connect: { id: faker.number.int({ min: 1, max: 100 }) }, // Assuming 100 users already exist
+              },
+            },
+          ],
+        },
       },
     });
-    products.push(product);
-  }
 
-  // Create 20 product-category relationships
-  for (const product of products) {
-    const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-    await prisma.productCategory.create({
-      data: {
-        product_id: product.product_id,
-        category_id: randomCategory.category_id,
-      },
-    });
+    console.log(`Created product ${i + 1}/100`);
   }
+}
 
-  // Create 20 product-subcategory relationships
-  for (const product of products) {
-    const randomSubCategory = subCategories[Math.floor(Math.random() * subCategories.length)];
-    await prisma.productSubCategory.create({
-      data: {
-        product_id: product.product_id,
-        sub_category_id: randomSubCategory.sub_category_id,
-      },
-    });
-  }
-
-  // Create 20 product-specific subcategory relationships
-  for (const product of products) {
-    const randomSpecificSubCategory = specificSubCategories[Math.floor(Math.random() * specificSubCategories.length)];
-    await prisma.productSpecificSubCategory.create({
-      data: {
-        product_id: product.product_id,
-        specific_sub_category_id: randomSpecificSubCategory.specific_sub_category_id,
-      },
-    });
-  }
-
-  // Generate 20 stocks
-  const sizes = ["S", "M", "L", "XL"];
-  for (const product of products) {
-    const size = sizes[Math.floor(Math.random() * sizes.length)];
-    await prisma.stock.create({
-      data: {
-        product_id: product.product_id,
-        size,
-        quantity:faker.number.int({ min: 1, max: 100 }),
-        
-      },
-    });
-  }
-
-  // Generate 20 images
-  for (const product of products) {
-    await prisma.image.create({
-      data: {
-        product_id: product.product_id,
-        image_url: faker.image.url(),
-      },
-    });
-  }
+function getRandomItems(array, min, max) {
+  const count = faker.number.int({ min, max });
+  const shuffled = array.sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
 }
 
 main()
