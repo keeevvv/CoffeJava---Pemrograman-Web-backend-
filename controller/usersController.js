@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
-
 const prisma = new PrismaClient();
 export const getAllUser = async (req, res) => {
   try {
@@ -13,7 +12,7 @@ export const getAllUser = async (req, res) => {
         email: true,
         nama: true,
         tanggalLahir: true,
-        profileImage: true
+        profileImage: true,
       },
     });
     res.status(200).json(users); // Mengirimkan data users dalam bentuk JSON
@@ -59,9 +58,9 @@ export const Register = async (req, res) => {
 
     await prisma.cart.create({
       data: {
-        user_id: newUser.id
-      }
-    })
+        user_id: newUser.id,
+      },
+    });
 
     return res.status(201).json({ msg: "User registered successfully" });
   } catch (error) {
@@ -77,7 +76,10 @@ export const Login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const User = await prisma.user.findUnique({ where: { email } });
-    if (!User) return res.status(404).json({ msg: `User with email ${email} not found` });
+    if (!User)
+      return res
+        .status(404)
+        .json({ msg: `User with email ${email} not found` });
 
     const match = await bcrypt.compare(password, User.password);
     if (!match) return res.status(400).json({ msg: "Wrong password" });
@@ -85,16 +87,16 @@ export const Login = async (req, res) => {
     const userId = User.id; // Mengambil UUID dari model User
     const name = User.nama;
     const emailUser = User.email;
-    const profileImage =  User.profileImage;
+    const profileImage = User.profileImage;
 
     // Generate access and refresh tokens
     const accessToken = jwt.sign(
-      { id: userId, name, email: emailUser,profileImage }, // Pastikan id, name, dan email diteruskan ke token
+      { id: userId, name, email: emailUser, profileImage }, // Pastikan id, name, dan email diteruskan ke token
       process.env.ACCESS_TOKEN,
       { expiresIn: "15d" }
     );
     const refreshToken = jwt.sign(
-      { id: userId, name, email: emailUser,profileImage }, // Pastikan id, name, dan email diteruskan ke token
+      { id: userId, name, email: emailUser, profileImage }, // Pastikan id, name, dan email diteruskan ke token
       process.env.REFRESH_TOKEN,
       { expiresIn: "30d" }
     );
@@ -121,8 +123,8 @@ export const Login = async (req, res) => {
   }
 };
 
-
 export const Logout = async (req, res) => {
+
   try {
     const authHeader = req.headers["authorization"]; // Untuk Flutter
 
@@ -171,4 +173,83 @@ export const Logout = async (req, res) => {
   }
 };
 
+export const editUser = async (req, res) => {
+  const { id } = req.params;
+  const { nama, email, gender, tanggalLahir } = req.body;
+
+  try {
+    const existingUser = await prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!existingUser) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id },
+      data: {
+        nama,
+        email,
+        gender,
+        tanggalLahir: tanggalLahir
+          ? new Date(tanggalLahir).toISOString()
+          : undefined,
+      },
+    });
+
+
+    res.status(200).json({
+      msg: "User updated successfully",
+      user: {
+        id: updatedUser.id,
+        nama: updatedUser.nama,
+        email: updatedUser.email,
+        gender: updatedUser.gender,
+        tanggalLahir: updatedUser.tanggalLahir,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Internal server error" });
+  }
+};
+export const changePassword = async (req, res) => {
+  const { id } = req.params;
+  const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    const match = await bcrypt.compare(currentPassword, user.password);
+    if (!match) {
+      return res.status(400).json({ msg: "Current password is incorrect" });
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return res
+        .status(400)
+        .json({ msg: "New password and confirm new password do not match" });
+    }
+
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(newPassword, salt);
+
+    await prisma.user.update({
+      where: { id },
+      data: { password: hashPassword },
+    });
+
+    res.status(200).json({ msg: "Password updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Internal server error" });
+  }
+};
 
