@@ -15,8 +15,8 @@ POST http://localhost:3000/api/v1/login
 Content-Type: application/json
 
 {
-    "email": "mamat@email.com",
-    "password": "ayamnaikHaji"
+    "email": "Betty80@hotmail.com",
+    "password": "123"
 }
 
 ### get all user

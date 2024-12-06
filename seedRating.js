@@ -1,31 +1,32 @@
-import { PrismaClient } from "@prisma/client";
-import { faker } from "@faker-js/faker";
+import { PrismaClient } from '@prisma/client';
+import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const products = await prisma.product.findMany(); // Ambil semua produk
-  const users = await prisma.user.findMany(); // Ambil semua user
+  const products = await prisma.product.findMany(); // Ambil semua produk yang ada
+  const users = await prisma.user.findMany(); // Ambil semua pengguna yang ada
 
   for (const product of products) {
-    // Tentukan jumlah rating antara 3 hingga 10 secara acak
-    const numRatings = faker.number.int({ min: 3, max: 10 });
+    const numRatings = faker.number.int({ min: 1, max: 10 }); // Tentukan jumlah rating yang akan ditambahkan, maksimal 10
 
+    // Generate rating untuk produk
     const ratings = Array.from({ length: numRatings }).map(() => ({
-      value: faker.number.int({ min: 1, max: 5, precision: 0.1 }), // Rating antara 1.0 - 5.0
+      value: (faker.number.int({ min: 1, max: 5 })), // Rating acak dengan satu angka desimal
       review: faker.lorem.sentence(), // Ulasan acak
-      product_id: product.product_id,
-      user_id: users[faker.number.int({ min: 0, max: users.length - 1 })].id, // Pilih acak user dari daftar user
-      createdAt: faker.date.past(), // Tanggal acak di masa lalu
+      user_id: faker.helpers.arrayElement(users).id, // Menghubungkan rating dengan pengguna yang acak
+      product_id: product.product_id, // Kaitkan rating dengan produk yang ada (product_id)
     }));
 
-    // Buat rating di database
+    // Tambahkan rating ke produk menggunakan createMany
     await prisma.rating.createMany({
-      data: ratings,
+      data: ratings, // Menambahkan banyak rating sekaligus
     });
+
+    console.log(`Added ${numRatings} ratings to product ${product.product_id}`);
   }
 
-  console.log("Seed data created successfully!");
+  console.log("Ratings added to products.");
 }
 
 main()

@@ -16,6 +16,7 @@ datasource db {
 model User {
   id           String     @unique @default(uuid())
   nama         String
+  profileImage String?
   email        String     @unique
   password     String
   tanggalLahir DateTime
