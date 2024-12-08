@@ -72,7 +72,6 @@ export const Register = async (req, res) => {
 };
 
 export const Login = async (req, res) => {
-
   const { email, password } = req.body;
   try {
     const User = await prisma.user.findUnique({ where: { email } });
@@ -88,15 +87,16 @@ export const Login = async (req, res) => {
     const name = User.nama;
     const emailUser = User.email;
     const profileImage = User.profileImage;
+    const tanggalLahir = User.tanggalLahir;
 
     // Generate access and refresh tokens
     const accessToken = jwt.sign(
-      { id: userId, name, email: emailUser, profileImage }, // Pastikan id, name, dan email diteruskan ke token
+      { id: userId, name, email: emailUser, profileImage, tanggalLahir },
       process.env.ACCESS_TOKEN,
       { expiresIn: "15d" }
     );
     const refreshToken = jwt.sign(
-      { id: userId, name, email: emailUser, profileImage }, // Pastikan id, name, dan email diteruskan ke token
+      { id: userId, name, email: emailUser, profileImage, tanggalLahir },
       process.env.REFRESH_TOKEN,
       { expiresIn: "30d" }
     );
@@ -124,7 +124,6 @@ export const Login = async (req, res) => {
 };
 
 export const Logout = async (req, res) => {
-
   try {
     const authHeader = req.headers["authorization"]; // Untuk Flutter
 
@@ -174,46 +173,53 @@ export const Logout = async (req, res) => {
 };
 
 export const editUser = async (req, res) => {
+  
   const { id } = req.params;
   const { nama, email, gender, tanggalLahir } = req.body;
 
   try {
+    // Cek apakah user ada berdasarkan ID
     const existingUser = await prisma.user.findUnique({
-      where: { id },
+      where: { id: id },
     });
 
     if (!existingUser) {
       return res.status(404).json({ msg: "User not found" });
     }
 
+    // Siapkan data yang akan diupdate hanya jika tersedia dalam body
+    const updateData = {};
+
+    if (nama) updateData.nama = nama;
+    if (email) updateData.email = email;
+    if (gender) updateData.gender = gender;
+    if (tanggalLahir) {
+      let formattedTanggalLahir = new Date(tanggalLahir);
+      formattedTanggalLahir = formattedTanggalLahir.toISOString().split("T")[0];
+      updateData.tanggalLahir = formattedTanggalLahir;
+    }
+
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({ msg: "No valid fields to update" });
+    }
+
+    // Update user
     const updatedUser = await prisma.user.update({
-      where: { id },
-      data: {
-        nama,
-        email,
-        gender,
-        tanggalLahir: tanggalLahir
-          ? new Date(tanggalLahir).toISOString()
-          : undefined,
-      },
+      where: { id: id },
+      data: updateData,
     });
 
-
+    // Kirimkan response dengan user yang telah diperbarui
     res.status(200).json({
       msg: "User updated successfully",
-      user: {
-        id: updatedUser.id,
-        nama: updatedUser.nama,
-        email: updatedUser.email,
-        gender: updatedUser.gender,
-        tanggalLahir: updatedUser.tanggalLahir,
-      },
+      user: updatedUser,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Internal server error" });
   }
 };
+
 export const changePassword = async (req, res) => {
   const { id } = req.params;
   const { currentPassword, newPassword, confirmNewPassword } = req.body;
@@ -252,4 +258,3 @@ export const changePassword = async (req, res) => {
     res.status(500).json({ msg: "Internal server error" });
   }
 };
-

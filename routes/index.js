@@ -16,7 +16,12 @@ import {
   deleteSingleItem,
 } from "../controller/cartController.js";
 
-import { getAllOrders, getOrdersById, makeShippingAddress, updateStatus } from "../controller/orderController.js";
+import {
+  getAllOrders,
+  getOrdersById,
+  makeShippingAddress,
+  updateStatus,
+} from "../controller/orderController.js";
 
 import {
   processTransaction,
@@ -46,12 +51,11 @@ router.post("/api/v1/login", Login);
 router.get("/api/v1/users", verifyToken, getAllUser);
 router.get("/api/v1/token", refreshToken);
 router.delete("/api/v1/logout", Logout);
-router.put("/api/v1/editUser/:id", editUser);
+router.put("/api/v1/editUser/:id", verifyToken, editUser);
 
 //products
 router.get("/api/v1/products", getAllProduct);
 router.get("/api/v1/product/:id", getProductById);
-
 
 //favorite
 router.get("/favorites", verifyToken, getUserFavorites);
@@ -66,10 +70,10 @@ router.delete("/api/v1/checkout/delete", verifyToken, deleteAllItem);
 router.delete("/api/v1/checkout/delete/:id", verifyToken, deleteSingleItem);
 
 //order
-router.get("/api/v1/order", verifyToken, getAllOrders)
-router.get("/api/v1/order/:id", verifyToken, getOrdersById)
-router.put("/api/v1/status", verifyToken, updateStatus)
-router.post("/api/v1/shipping", verifyToken, makeShippingAddress)
+router.get("/api/v1/order", verifyToken, getAllOrders);
+router.get("/api/v1/order/:id", verifyToken, getOrdersById);
+router.put("/api/v1/status", verifyToken, updateStatus);
+router.post("/api/v1/shipping", verifyToken, makeShippingAddress);
 
 //payment
 router.post("/api/v1/transaction", verifyToken, processTransaction);
