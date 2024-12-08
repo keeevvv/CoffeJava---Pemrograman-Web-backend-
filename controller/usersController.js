@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 const prisma = new PrismaClient();
 export const getAllUser = async (req, res) => {
+ 
   try {
     const users = await prisma.user.findMany({
       select: {
@@ -125,9 +126,9 @@ export const Login = async (req, res) => {
 
 export const Logout = async (req, res) => {
   try {
-    const authHeader = req.headers["authorization"]; // Untuk Flutter
+    const authHeader = req.headers["authorization"];
 
-    const cookie = req.cookies["refreshToken"]; // Untuk Website
+    const cookie = req.cookies["refreshToken"];
 
     let refreshToken;
 
@@ -139,24 +140,20 @@ export const Logout = async (req, res) => {
       return res.status(400).json({ message: "Token tidak ditemukan" });
     }
 
-    // Cari token berdasarkan refreshToken di database
     const token = await prisma.token.findFirst({
       where: { RefreshToken: refreshToken },
     });
 
-    // Jika token tidak ditemukan, kirim respons error
     if (!token) {
       return res
         .status(400)
         .json({ message: "Token tidak valid atau sudah dihapus" });
     }
 
-    // Hapus token dari database
     await prisma.token.delete({
       where: { id: token.id },
     });
 
-    // Jika pengguna menggunakan website, hapus cookie
     if (cookie) {
       res.clearCookie("refreshToken", {
         httpOnly: true,
@@ -164,7 +161,6 @@ export const Logout = async (req, res) => {
       });
     }
 
-    // Berikan respons logout berhasil
     res.status(200).json({ message: "Logout berhasil" });
   } catch (error) {
     console.error(error);
@@ -173,12 +169,12 @@ export const Logout = async (req, res) => {
 };
 
 export const editUser = async (req, res) => {
-  
   const { id } = req.params;
-  const { nama, email, gender, tanggalLahir } = req.body;
+  const { nama, email, gender, tanggalLahir, profileImage } = req.body;
+  const cookie = req.cookies["refreshToken"];
+  const test = res.clearCookie("refreshToken");
 
   try {
-    // Cek apakah user ada berdasarkan ID
     const existingUser = await prisma.user.findUnique({
       where: { id: id },
     });
@@ -187,12 +183,12 @@ export const editUser = async (req, res) => {
       return res.status(404).json({ msg: "User not found" });
     }
 
-    // Siapkan data yang akan diupdate hanya jika tersedia dalam body
     const updateData = {};
 
     if (nama) updateData.nama = nama;
     if (email) updateData.email = email;
     if (gender) updateData.gender = gender;
+    if (profileImage) updateData.profileImage = profileImage;
     if (tanggalLahir) {
       let formattedTanggalLahir = new Date(tanggalLahir);
       formattedTanggalLahir = formattedTanggalLahir.toISOString().split("T")[0];
@@ -203,16 +199,62 @@ export const editUser = async (req, res) => {
       return res.status(400).json({ msg: "No valid fields to update" });
     }
 
-    // Update user
     const updatedUser = await prisma.user.update({
       where: { id: id },
       data: updateData,
     });
 
-    // Kirimkan response dengan user yang telah diperbarui
+    const accessToken = jwt.sign(
+      {
+        id: id,
+        name: updatedUser.nama,
+        email: updatedUser.email,
+        profileImage: updatedUser.profileImage,
+        tanggalLahir: updatedUser.tanggalLahir,
+      },
+      process.env.ACCESS_TOKEN,
+      { expiresIn: "15d" }
+    );
+
+    const refreshToken = jwt.sign(
+      {
+        id: id,
+        name: updatedUser.nama,
+        email: updatedUser.email,
+        profileImage: updatedUser.profileImage,
+        tanggalLahir: updatedUser.tanggalLahir,
+      },
+      process.env.REFRESH_TOKEN,
+      { expiresIn: "30d" }
+    );
+
+    await prisma.token.updateMany({
+      where: {
+        RefreshToken: cookie,
+        userId: id,
+      },
+      data: {
+        RefreshToken: refreshToken,
+      },
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
+   
     res.status(200).json({
       msg: "User updated successfully",
-      user: updatedUser,
+      user: {
+        id: updatedUser.id,
+        nama: updatedUser.nama,
+        email: updatedUser.email,
+        gender: updatedUser.gender,
+        tanggalLahir: updatedUser.tanggalLahir,
+      },
+      accessToken,
+      refreshToken,
+    
     });
   } catch (error) {
     console.error(error);

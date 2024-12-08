@@ -15,13 +15,13 @@ POST http://localhost:3000/api/v1/login
 Content-Type: application/json
 
 {
-    "email": "Brenda.Connelly@gmail.com",
+    "email": "farhan@gmail.com",
     "password": "123"
 }
 
 ### update User
 PUT  http://localhost:3000/api/v1/editUser/0178d6b5-e1f3-46c0-859c-83625972a7b5
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxNzhkNmI1LWUxZjMtNDZjMC04NTljLTgzNjI1OTcyYTdiNSIsIm5hbWUiOiJUcmV2b3IgUm9kcmlndWV6IiwiZW1haWwiOiJCcmVuZGEuQ29ubmVsbHlAZ21haWwuY29tIiwicHJvZmlsZUltYWdlIjoiaHR0cHM6Ly9hdmF0YXJzLmdpdGh1YnVzZXJjb250ZW50LmNvbS91Lzk3Mjc2NTY1IiwidGFuZ2dhbExhaGlyIjoiMjAyNC0xMC0xOFQwNTo1NjowMy4wOTdaIiwiaWF0IjoxNzMzNjcwNzM0LCJleHAiOjE3MzQ5NjY3MzR9.TZXLjmzUT3DogboPeBxlmLkriLWBuHfu5hl2xO4Zv2o
+Authorization:Bearer 
 Content-Type: application/json
 {
   "nama": "orang ganteng"
@@ -35,7 +35,7 @@ GET http://localhost:3000/api/v1/token
 ### Logout
 DELETE http://localhost:3000/api/v1/logout
 
-
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxNzhkNmI1LWUxZjMtNDZjMC04NTljLTgzNjI1OTcyYTdiNSIsIm5hbWUiOiJUcmV2b3IgUm9kcmlndWV6IiwiZW1haWwiOiJCcmVuZGEuQ29ubmVsbHlAZ21haWwuY29tIiwicHJvZmlsZUltYWdlIjoiaHR0cHM6Ly9hdmF0YXJzLmdpdGh1YnVzZXJjb250ZW50LmNvbS91Lzk3Mjc2NTY1IiwidGFuZ2dhbExhaGlyIjoiMjAyNC0xMC0xOFQwNTo1NjowMy4wOTdaIiwiaWF0IjoxNzMzNjcwNzM0LCJleHAiOjE3MzQ5NjY3MzR9.TZXLjmzUT3DogboPeBxlmLkriLWBuHfu5hl2xO4Zv2o
 ### Mengambil daftar produk favorit user
 GET http://localhost:3000/favorites
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OTdlZTQwZi02Njk5LTQzYWUtODc3ZC1kYTYzMTRkMGVkMzEiLCJuYW1lIjoiTWFtYXQgU2VudG9zYSIsImVtYWlsVXNlciI6Im1hbWF0QGVtYWlsLmNvbSIsImlhdCI6MTczMjkzMzI2NCwiZXhwIjoxNzM0MjI5MjY0fQ.Siq-WeNEj9CiNVtQL7J8NMwTlplw52Z3sg5-eo_LQIM
