@@ -173,12 +173,10 @@ export const Logout = async (req, res) => {
 };
 
 export const editUser = async (req, res) => {
-  
   const { id } = req.params;
-  const { nama, email, gender, tanggalLahir } = req.body;
+  const { profileImage, nama, email, gender, tanggalLahir } = req.body;
 
   try {
-    // Cek apakah user ada berdasarkan ID
     const existingUser = await prisma.user.findUnique({
       where: { id: id },
     });
@@ -186,10 +184,9 @@ export const editUser = async (req, res) => {
     if (!existingUser) {
       return res.status(404).json({ msg: "User not found" });
     }
-
-    // Siapkan data yang akan diupdate hanya jika tersedia dalam body
     const updateData = {};
 
+    if (profileImage) updateData.profileImage = profileImage;
     if (nama) updateData.nama = nama;
     if (email) updateData.email = email;
     if (gender) updateData.gender = gender;
@@ -203,13 +200,11 @@ export const editUser = async (req, res) => {
       return res.status(400).json({ msg: "No valid fields to update" });
     }
 
-    // Update user
     const updatedUser = await prisma.user.update({
       where: { id: id },
       data: updateData,
     });
 
-    // Kirimkan response dengan user yang telah diperbarui
     res.status(200).json({
       msg: "User updated successfully",
       user: updatedUser,
