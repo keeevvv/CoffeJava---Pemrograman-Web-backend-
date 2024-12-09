@@ -32,8 +32,15 @@ export const getAllUser = async (req, res) => {
 export const Register = async (req, res) => {
   const { nama, email, password, confirmPassword, gender, tanggalLahir } =
     req.body;
-  let formattedTanggalLahir = new Date(tanggalLahir);
-  formattedTanggalLahir = formattedTanggalLahir.toISOString();
+  try {
+    let formattedTanggalLahir = new Date(tanggalLahir);
+    formattedTanggalLahir = formattedTanggalLahir.toISOString();
+    updateData.tanggalLahir = formattedTanggalLahir;
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ msg: "please input the correct format of yyyy-mm-dd" });
+  }
   if (password !== confirmPassword) {
     return res
       .status(400)
@@ -179,7 +186,8 @@ export const editUser = async (req, res) => {
   const { id } = req.params;
   const { nama, email, gender, tanggalLahir } = req.body;
   const cookie = req.cookies["refreshToken"];
-  const decoded = jwtDecode(cookie);
+  const curentUser = req.headers["authorization"]?.split(" ")[1]
+  const decoded = jwtDecode(curentUser);
 
   try {
     const existingUser = await prisma.user.findUnique({
@@ -198,7 +206,6 @@ export const editUser = async (req, res) => {
 
     if (nama) updateData.nama = nama;
     if (email) {
-      
       const emailExists = await prisma.user.findUnique({
         where: { email: email },
       });
@@ -212,9 +219,15 @@ export const editUser = async (req, res) => {
     if (gender) updateData.gender = gender;
 
     if (tanggalLahir) {
-      let formattedTanggalLahir = new Date(tanggalLahir);
-      formattedTanggalLahir = formattedTanggalLahir.toISOString().split("T")[0];
-      updateData.tanggalLahir = formattedTanggalLahir;
+      try {
+        let formattedTanggalLahir = new Date(tanggalLahir);
+        formattedTanggalLahir = formattedTanggalLahir.toISOString();
+        updateData.tanggalLahir = formattedTanggalLahir;
+      } catch (error) {
+        return res
+          .status(400)
+          .json({ msg: "please input the correct format of yyyy-mm-dd" });
+      }
     }
 
     if (Object.keys(updateData).length === 0) {
@@ -282,7 +295,8 @@ export const changeProfile = async (req, res) => {
   const { id } = req.params;
   const filePath = req.file.path;
   const cookie = req.cookies["refreshToken"];
-  const decoded = jwtDecode(cookie);
+  const curentUser = req.headers["authorization"]?.split(" ")[1]
+  const decoded = jwtDecode(curentUser);
   try {
     const existingUser = await prisma.user.findUnique({
       where: { id: id },
@@ -302,12 +316,12 @@ export const changeProfile = async (req, res) => {
       }
 
       const updatedUser = await prisma.user.update({
-        where: { id: id }, 
+        where: { id: id },
         data: {
-          profileImage: result.secure_url, 
+          profileImage: result.secure_url,
         },
       });
-      
+
       const accessToken = jwt.sign(
         {
           id: updatedUser.id,

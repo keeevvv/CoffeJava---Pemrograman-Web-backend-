@@ -18,7 +18,8 @@ export const getUserFavorites = async (req, res) => {
 
 // Menambah produk ke daftar favorit
 export const addToFavorites = async (req, res) => {
-  const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).userId;
+  const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).id;
+
   const { productId } = req.body;
   try {
     const existing = await prisma.favorite.findFirst({
@@ -27,6 +28,8 @@ export const addToFavorites = async (req, res) => {
         product_id: productId,
       },
     });
+
+ 
 
     if (existing) {
       return res.status(400).json({ message: "Product already in favorites" });
@@ -44,7 +47,7 @@ export const addToFavorites = async (req, res) => {
 
 // Menghapus produk dari daftar favorit
 export const removeFromFavorites = async (req, res) => {
-  const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).userId;
+  const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).id;
   const { productId } = req.body;
   try {
     const favoriteExists = await prisma.favorite.findFirst({
