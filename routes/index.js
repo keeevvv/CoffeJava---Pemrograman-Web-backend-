@@ -1,4 +1,5 @@
 import express from "express";
+import multer from "multer";
 import {
   Register,
   Login,
@@ -6,6 +7,7 @@ import {
   Logout,
   changePassword,
   editUser,
+  changeProfile,
 } from "../controller/usersController.js";
 
 import {
@@ -43,6 +45,7 @@ import {
 import { verifyToken } from "../middlewares/VerifyToken.js";
 import { refreshToken } from "../controller/RefreshTokenController.js";
 const router = express.Router();
+const upload = multer({ dest: "uploads/" });
 
 //users
 router.post("/api/v1/register", Register);
@@ -52,6 +55,12 @@ router.get("/api/v1/users", verifyToken, getAllUser);
 router.get("/api/v1/token", refreshToken);
 router.delete("/api/v1/logout", Logout);
 router.put("/api/v1/editUser/:id", verifyToken, editUser);
+router.post(
+  "/api/v1/editProfile/:id",
+  verifyToken,
+  upload.single("image"),
+  changeProfile
+);
 
 //products
 router.get("/api/v1/products", getAllProduct);
