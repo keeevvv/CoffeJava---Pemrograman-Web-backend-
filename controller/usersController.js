@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 
 const prisma = new PrismaClient();
 export const getAllUser = async (req, res) => {
- 
   try {
     const users = await prisma.user.findMany({
       select: {
@@ -179,6 +178,10 @@ export const editUser = async (req, res) => {
       where: { id: id },
     });
 
+    if (existingUser.id != id) {
+      return res.status(403).json({ msg: "you can oly edit your account" });
+    }
+
     if (!existingUser) {
       return res.status(404).json({ msg: "User not found" });
     }
@@ -188,7 +191,7 @@ export const editUser = async (req, res) => {
     if (nama) updateData.nama = nama;
     if (email) updateData.email = email;
     if (gender) updateData.gender = gender;
-    if (profileImage) updateData.profileImage = profileImage;
+
     if (tanggalLahir) {
       let formattedTanggalLahir = new Date(tanggalLahir);
       formattedTanggalLahir = formattedTanggalLahir.toISOString().split("T")[0];
@@ -206,7 +209,7 @@ export const editUser = async (req, res) => {
 
     const accessToken = jwt.sign(
       {
-        id: id,
+        id: updatedUser.id,
         name: updatedUser.nama,
         email: updatedUser.email,
         profileImage: updatedUser.profileImage,
@@ -218,7 +221,7 @@ export const editUser = async (req, res) => {
 
     const refreshToken = jwt.sign(
       {
-        id: id,
+        id: updatedUser.id,
         name: updatedUser.nama,
         email: updatedUser.email,
         profileImage: updatedUser.profileImage,
