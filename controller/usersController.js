@@ -170,7 +170,7 @@ export const Logout = async (req, res) => {
 
 export const editUser = async (req, res) => {
   const { id } = req.params;
-  const { nama, email, gender, tanggalLahir, profileImage } = req.body;
+  const { nama, email, gender, tanggalLahir } = req.body;
   const cookie = req.cookies["refreshToken"];
   const test = res.clearCookie("refreshToken");
 
@@ -242,7 +242,7 @@ export const editUser = async (req, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
-   
+
     res.status(200).json({
       msg: "User updated successfully",
       user: {
@@ -254,7 +254,6 @@ export const editUser = async (req, res) => {
       },
       accessToken,
       refreshToken,
-    
     });
   } catch (error) {
     console.error(error);
