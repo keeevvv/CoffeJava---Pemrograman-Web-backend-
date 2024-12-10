@@ -32,10 +32,11 @@ export const getAllUser = async (req, res) => {
 export const Register = async (req, res) => {
   const { nama, email, password, confirmPassword, gender, tanggalLahir } =
     req.body;
-  try {
+
     let formattedTanggalLahir = new Date(tanggalLahir);
+  try {
+    
     formattedTanggalLahir = formattedTanggalLahir.toISOString();
-    updateData.tanggalLahir = formattedTanggalLahir;
   } catch (error) {
     return res
       .status(400)
@@ -60,7 +61,7 @@ export const Register = async (req, res) => {
 
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password, salt);
-
+    console.log(formattedTanggalLahir);
     const newUser = await prisma.user.create({
       data: {
         email,
@@ -186,7 +187,7 @@ export const editUser = async (req, res) => {
   const { id } = req.params;
   const { nama, email, gender, tanggalLahir } = req.body;
   const cookie = req.cookies["refreshToken"];
-  const curentUser = req.headers["authorization"]?.split(" ")[1]
+  const curentUser = req.headers["authorization"]?.split(" ")[1];
   const decoded = jwtDecode(curentUser);
 
   try {
@@ -295,7 +296,7 @@ export const changeProfile = async (req, res) => {
   const { id } = req.params;
   const filePath = req.file.path;
   const cookie = req.cookies["refreshToken"];
-  const curentUser = req.headers["authorization"]?.split(" ")[1]
+  const curentUser = req.headers["authorization"]?.split(" ")[1];
   const decoded = jwtDecode(curentUser);
   try {
     const existingUser = await prisma.user.findUnique({
