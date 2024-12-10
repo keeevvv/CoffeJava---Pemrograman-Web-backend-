@@ -33,10 +33,11 @@ export const getAllUser = async (req, res) => {
 export const Register = async (req, res) => {
   const { nama, email, password, confirmPassword, gender, tanggalLahir } =
     req.body;
-  try {
+
     let formattedTanggalLahir = new Date(tanggalLahir);
+  try {
+    
     formattedTanggalLahir = formattedTanggalLahir.toISOString();
-    updateData.tanggalLahir = formattedTanggalLahir;
   } catch (error) {
     return res
       .status(400)
@@ -61,7 +62,7 @@ export const Register = async (req, res) => {
 
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password, salt);
-
+    console.log(formattedTanggalLahir);
     const newUser = await prisma.user.create({
       data: {
         email,
