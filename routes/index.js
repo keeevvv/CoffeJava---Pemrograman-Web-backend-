@@ -34,6 +34,9 @@ import {
   getAllProduct,
   getPopulerProduct,
   getProductById,
+  getAllCategories,
+  getSubcategory,
+  getAllSpecificSubcategories,
 } from "../controller/productsController.js";
 
 import {
@@ -65,6 +68,9 @@ router.post(
 //products
 router.get("/api/v1/products", getAllProduct);
 router.get("/api/v1/product/:id", getProductById);
+router.get("/api/v1/categories", getAllCategories);
+router.get("/api/v1/subcategory", getSubcategory);
+router.get("/api/v1/specific-subcategories", getAllSpecificSubcategories);
 
 //favorite
 router.get("/favorites", verifyToken, getUserFavorites);
