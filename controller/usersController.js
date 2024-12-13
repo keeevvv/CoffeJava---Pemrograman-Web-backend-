@@ -29,6 +29,7 @@ export const getAllUser = async (req, res) => {
     res.status(500).json({ msg: "Internal server error" });
   }
 };
+
 export const Register = async (req, res) => {
   const { nama, email, password, confirmPassword, gender, tanggalLahir } =
     req.body;
