@@ -8,7 +8,69 @@ export const getUserFavorites = async (req, res) => {
   try {
     const favorites = await prisma.favorite.findMany({
       where: { user_id: userId },
-      include: { product: true }, 
+      include: {
+        product: {
+          select: {
+            product_id: true,
+            pName: true,
+            sale: true,
+            discount: true,
+            location: true,
+            weight: true,
+            price: true,
+            brand: true,
+            desc: true,
+            categories: {
+              select: {
+                Category: {
+                  select: {
+                    category_id: true,
+                    category_name: true,
+                  },
+                },
+              },
+            },
+            subcategories: {
+              select: {
+                SubCategory: {
+                  select: {
+                    sub_category_id: true,
+                    sub_category_name: true,
+                  },
+                },
+              },
+            },
+            specificSubCategories: {
+              select: {
+                SpecificSubCategory: {
+                  select: {
+                    specific_sub_category_id: true,
+                    specific_sub_category_name: true,
+                  },
+                },
+              },
+            },
+            images: {
+              select: {
+                image_id: true,
+                image_url: true,
+              },
+            },
+            ratings: {
+              select: {
+                rating_id: true,
+                value: true,
+                review: true,
+                user: {
+                  select: {
+                    nama: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
     res.status(200).json(favorites);
   } catch (error) {
