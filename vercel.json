@@ -2,11 +2,13 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
+      "src": "index.js",
       "use": "@vercel/node"
     }
   ],
- 
+  "hooks": {
+    "build": "npx prisma generate"
+  },
   "routes": [
     {
       "src": "/(.*)",
