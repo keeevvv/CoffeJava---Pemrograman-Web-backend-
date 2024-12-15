@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node index.js",
-    "postinstall": "prisma generate"
+    "dev": "nodemon index.js",
+    "build": "prisma generate && node index.js"
+ 
   },
   "keywords": [],
   "author": "",
