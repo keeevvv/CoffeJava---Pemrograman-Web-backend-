@@ -22,6 +22,8 @@ import {
   getAllOrders,
   getOrdersById,
   makeShippingAddress,
+  getShippingAddress,
+  getShippingAddressById,
   updateStatus,
 } from "../controller/orderController.js";
 
@@ -89,6 +91,8 @@ router.get("/api/v1/order", verifyToken, getAllOrders);
 router.get("/api/v1/order/:id", verifyToken, getOrdersById);
 router.put("/api/v1/status", verifyToken, updateStatus);
 router.post("/api/v1/shipping", verifyToken, makeShippingAddress);
+router.get("/api/v1/shipping", verifyToken, getShippingAddress);
+router.get("/api/v1/shipping/:id", verifyToken, getShippingAddressById);
 
 //payment
 router.post("/api/v1/transaction", verifyToken, processTransaction);
