@@ -93,7 +93,7 @@ export const Login = async (req, res) => {
     const accessToken = jwt.sign(
       { id: userId, name, email: emailUser, profileImage }, // Pastikan id, name, dan email diteruskan ke token
       process.env.ACCESS_TOKEN,
-      { expiresIn: "15d" }
+      { expiresIn: "20d" }
     );
     const refreshToken = jwt.sign(
       { id: userId, name, email: emailUser, profileImage }, // Pastikan id, name, dan email diteruskan ke token

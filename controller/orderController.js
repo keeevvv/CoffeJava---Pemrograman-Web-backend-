@@ -107,7 +107,7 @@ export async function makeShippingAddress(req, res) {
 
 export async function updateStatus(req, res) {
     const user = req.user
-    const {orderId} = req.params
+    // const {orderId} = req.params
     const {status} = req.body
 
     try{
@@ -120,21 +120,21 @@ export async function updateStatus(req, res) {
 
         if(!checkUser) throw "Error, You're Not Signed"
 
-        const order = await prisma.order.findFirst({
-            where: {
-                order_id: orderId,
-                user_id: user.id
-            }
-        })
+        // const order = await prisma.order.findFirst({
+        //     where: {
+        //         order_id: orderId,
+        //         user_id: user.id
+        //     }
+        // })
 
-        if(!order) throw "Order Not Found"
+        // if(!order) throw "Order Not Found"
 
-        const updateOrder = await prisma.order.update({
+        const updateOrder = await prisma.order.updateMany({
             where: {
-                order_id: order.order_id,
+                user_id:user.id
             },
             data: {
-                status
+                status: status
             }
         })
 

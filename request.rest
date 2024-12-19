@@ -15,13 +15,13 @@ POST http://localhost:3000/api/v1/login
 Content-Type: application/json
 
 {
-    "email": "Betty80@hotmail.com",
-    "password": "123"
+    "email": "mamat@email.com",
+    "password": "ayamnaikHaji"
 }
 
 ### get all user
 GET http://localhost:3000/api/v1/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNDRhMTA5LTIxM2MtNDMwYS04NjhiLWVkYTUxNzFiNzY1MCIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsImlhdCI6MTczMzc1ODAwMiwiZXhwIjoxNzM1NDg2MDAyfQ.dVl3MOF632hSu5NzvTMVudO1Esexg7Hh3vSLvnBNU5w
 #### token
 GET http://localhost:3000/api/v1/token
 
@@ -30,29 +30,29 @@ DELETE http://localhost:3000/api/v1/logout
 
 
 ### Mengambil daftar produk favorit user
-GET http://localhost:3000/favorites
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OTdlZTQwZi02Njk5LTQzYWUtODc3ZC1kYTYzMTRkMGVkMzEiLCJuYW1lIjoiTWFtYXQgU2VudG9zYSIsImVtYWlsVXNlciI6Im1hbWF0QGVtYWlsLmNvbSIsImlhdCI6MTczMjkzMzI2NCwiZXhwIjoxNzM0MjI5MjY0fQ.Siq-WeNEj9CiNVtQL7J8NMwTlplw52Z3sg5-eo_LQIM
+GET http://localhost:3000/api/v1/favorites
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNDRhMTA5LTIxM2MtNDMwYS04NjhiLWVkYTUxNzFiNzY1MCIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsImlhdCI6MTczMzc1ODAwMiwiZXhwIjoxNzM1NDg2MDAyfQ.dVl3MOF632hSu5NzvTMVudO1Esexg7Hh3vSLvnBNU5w
 
 ###
 
 ### Menambahkan produk ke daftar favorit
-POST http://localhost:3000/favorites
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OTdlZTQwZi02Njk5LTQzYWUtODc3ZC1kYTYzMTRkMGVkMzEiLCJuYW1lIjoiTWFtYXQgU2VudG9zYSIsImVtYWlsVXNlciI6Im1hbWF0QGVtYWlsLmNvbSIsImlhdCI6MTczMjkzMzI2NCwiZXhwIjoxNzM0MjI5MjY0fQ.Siq-WeNEj9CiNVtQL7J8NMwTlplw52Z3sg5-eo_LQIM
+POST http://localhost:3000/api/v1/favorites
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNDRhMTA5LTIxM2MtNDMwYS04NjhiLWVkYTUxNzFiNzY1MCIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsImlhdCI6MTczMzc1ODAwMiwiZXhwIjoxNzM1NDg2MDAyfQ.dVl3MOF632hSu5NzvTMVudO1Esexg7Hh3vSLvnBNU5w
 Content-Type: application/json
 
 {
-  "productId": 10
+  "productId": 101
 }
 
 ###
 
 ### Menghapus produk dari daftar favorit
-DELETE http://localhost:3000/favorites
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OTdlZTQwZi02Njk5LTQzYWUtODc3ZC1kYTYzMTRkMGVkMzEiLCJuYW1lIjoiTWFtYXQgU2VudG9zYSIsImVtYWlsVXNlciI6Im1hbWF0QGVtYWlsLmNvbSIsImlhdCI6MTczMjkzMzI2NCwiZXhwIjoxNzM0MjI5MjY0fQ.Siq-WeNEj9CiNVtQL7J8NMwTlplw52Z3sg5-eo_LQIM
+DELETE http://localhost:3000/api/v1/favorites
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNDRhMTA5LTIxM2MtNDMwYS04NjhiLWVkYTUxNzFiNzY1MCIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsImlhdCI6MTczMzc1ODAwMiwiZXhwIjoxNzM1NDg2MDAyfQ.dVl3MOF632hSu5NzvTMVudO1Esexg7Hh3vSLvnBNU5w
 Content-Type: application/json
 
 {
-  "productId": 20
+  "productId": 101
 }
 
 
@@ -62,9 +62,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3O
 Content-Type: application/json
 
 {
-    "quantity":2,
-    "product_id": 1,
-    "size": "XL"
+    "quantity":3,
+    "product_id": 90,
+    "size": "S"
 }
 
 ### get all Cart
@@ -78,8 +78,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3O
 Content-Type: application/json
 
 {
-    "itemId": 1,
-    "qty": 2
+    "itemId": 4,
+    "qty": 3
 }
 
 ### delete all item
@@ -97,7 +97,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3O
 Content-Type: application/json
 
 {
-    "itemId": 2
+    "itemId": 7
 }
 
 
@@ -146,7 +146,7 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3
 
 {
   "transaction": {
-    "orderId": "a99caa21-4e0e-4dfd-afd8-d968ea19c569",
+    "orderId": "c2a4e010-6928-43c9-a43d-1b80feeb0991",
     "fraud_status": "accept",
     "transaction_status": "settlement"
   }

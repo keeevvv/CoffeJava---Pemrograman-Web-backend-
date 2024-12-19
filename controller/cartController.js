@@ -7,7 +7,7 @@ export async function getAllCart(req, res) {
     try {
         const checkUser = await prisma.user.findFirst({
             where: {
-                id: user.id,
+                id: user.userId,
                 nama: user.nama
             }
         });
@@ -124,9 +124,17 @@ export async function saveCart(req, res) {
             }
         })
 
-        if (!productData) throw "Error, product not found";
-        if(!stockData) throw "Error, stock for the specified"
-        if(stockData.quantity < quantity) throw "Error, insufficient stock"
+        
+
+        if (!productData) {
+            res.status(409).json({msg: "Error, product not found"})
+        }
+        if(!stockData) {
+            res.status(409).json({msg: "Error, stock for the specified"})
+        }
+        if(stockData.quantity < quantity) {
+            res.status(409).json({msg: "Error, insufficient stock"})
+        }
 
         // Hitung total harga
         const total_price = quantity * productData.price;
@@ -166,7 +174,9 @@ export async function changeQTY(req, res) {
 
     try {
         // Pastikan itemId diterima dengan benar
-        if (!itemId) throw "Error, itemId is required";
+        if (!itemId) {
+            res.status(409).json({msg: "Error, itemId is required"})
+        };
 
         const checkUser = await prisma.user.findFirst({
             where: {
@@ -191,7 +201,9 @@ export async function changeQTY(req, res) {
             }
         });
 
-        if (!cartItem) throw "Error, Cart item not found";
+        if (!cartItem) {
+            res.status(409).json({msg: "Error, Cart item not found"})
+        }
 
         // Hitung total harga baru
         const total_price = qty * cartItem.product.price;

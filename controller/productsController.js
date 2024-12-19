@@ -1,3 +1,4 @@
+
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -194,7 +195,7 @@ export const getProductById = async (req, res) => {
         sale: true,
         brand: true,
         desc: true,
-        price:true,
+        price: true,
 
         ratings: {
           select: {
@@ -489,5 +490,50 @@ export const getPopulerProduct = async (req, res) => {
       success: false,
       message: "Failed to fetch products",
     });
+  }
+};
+
+export const getAllCategories = async (req, res) => {
+  try {
+    const categories = await prisma.category.findMany({
+      select: {
+        category_id: true,
+        category_name: true,
+      },
+    });
+    res.status(200).json(categories);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Internal server error" });
+  }
+};
+
+export const getSubcategory = async (req, res) => {
+  try {
+    const subcategory = await prisma.subCategory.findMany({
+      select: {
+        sub_category_id: true,
+        sub_category_name: true,
+      },
+    });
+    res.status(200).json(subcategory);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Internal server error" });
+  }
+};
+
+export const getAllSpecificSubcategories = async (req, res) => {
+  try {
+    const specificSubcategories = await prisma.specificSubCategory.findMany({
+      select: {
+        specific_sub_category_id: true,
+        specific_sub_category_name: true,
+      },
+    });
+    res.status(200).json(specificSubcategories);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Internal server error" });
   }
 };
