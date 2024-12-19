@@ -172,6 +172,62 @@ export async function makeShippingAddress(req, res) {
     }
 }
 
+export async function getShippingAddress(req, res){
+    const user = req.user;
+
+    try{
+        const checkUser = await prisma.user.findFirst({
+            where: {
+                id: user.id
+            }
+        });
+        if (!checkUser) throw "Error, You're Not Signed";
+
+        const shippingAddress = await prisma.shippingAddress.findMany({
+            where: {
+                user_id:user.id
+            }
+        });
+
+        res.status(200).json(shippingAddress);
+    } catch (error){
+        console.error(error);
+        res.status(500).json({error: "internal server error"});
+    }
+}
+
+
+export async function getShippingAddressById(req, res){
+    const user = req.user; 
+    const { id } = req.params; 
+
+    try {
+        const checkUser = await prisma.user.findFirst({
+            where: {
+                id: user.id,
+            },
+        });
+        if (!checkUser) throw "Error you're not signed in";
+
+        const shippingAddress = await prisma.shippingAddress.findFirst({
+            where: {
+                user_id: user.id, 
+                shipping_id: parseInt(id), 
+            },
+        });
+
+        if (!shippingAddress) {
+            return res.status(404).json({ error: "Shipping address not found" });
+        }
+
+        res.status(200).json(shippingAddress);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+
+}
+
 
 
 export async function updateStatus(req, res) {
