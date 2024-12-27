@@ -19,6 +19,14 @@ Content-Type: application/json
     "password": "ayamnaikHaji"
 }
 
+### update User
+PUT  http://localhost:3000/api/v1/editUser/0178d6b5-e1f3-46c0-859c-83625972a7b5
+Authorization:Bearer 
+Content-Type: application/json
+{
+  "nama": "orang ganteng"
+}
+
 ### get all user
 GET http://localhost:3000/api/v1/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNDRhMTA5LTIxM2MtNDMwYS04NjhiLWVkYTUxNzFiNzY1MCIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsImlhdCI6MTczMzc1ODAwMiwiZXhwIjoxNzM1NDg2MDAyfQ.dVl3MOF632hSu5NzvTMVudO1Esexg7Hh3vSLvnBNU5w
@@ -27,7 +35,7 @@ GET http://localhost:3000/api/v1/token
 
 ### Logout
 DELETE http://localhost:3000/api/v1/logout
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNDRhMTA5LTIxM2MtNDMwYS04NjhiLWVkYTUxNzFiNzY1MCIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsImlhdCI6MTczMzc1ODAwMiwiZXhwIjoxNzM1NDg2MDAyfQ.dVl3MOF632hSu5NzvTMVudO1Esexg7Hh3vSLvnBNU5w
 
 ### Mengambil daftar produk favorit user
 GET http://localhost:3000/api/v1/favorites
@@ -41,7 +49,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNDRhMTA5L
 Content-Type: application/json
 
 {
-  "productId": 101
+  "productId": 1
 }
 
 ###
@@ -52,8 +60,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNDRhMTA5L
 Content-Type: application/json
 
 {
-  "productId": 101
+  "productId": 3
 }
+
+### Menghapus produk dari daftar favorit by id
+DELETE http://localhost:3000/api/v1/favorites/9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNDRhMTA5LTIxM2MtNDMwYS04NjhiLWVkYTUxNzFiNzY1MCIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsImlhdCI6MTczMzc1ODAwMiwiZXhwIjoxNzM1NDg2MDAyfQ.dVl3MOF632hSu5NzvTMVudO1Esexg7Hh3vSLvnBNU5w
+Content-Type: application/json
+
 
 
 ### Save Cart

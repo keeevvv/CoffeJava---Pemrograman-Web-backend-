@@ -1,3 +1,4 @@
+
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import midtransClient from "midtrans-client";
@@ -52,7 +53,7 @@ export async function processTransaction(req, res) {
 
         const item_details = cart.cart_items.map(item => ({
             id: item.cart_item_id,
-            price: item.product.price,
+            price: Math.floor(item.product.price),
             quantity: item.quantity,
             name: item.product.pName,
             size: item.size
