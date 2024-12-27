@@ -3,6 +3,8 @@ import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
 
+
+
 async function main() {
   // Fetch all categories, subcategories, and specific subcategories
   const categories = await prisma.category.findMany();

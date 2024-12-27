@@ -22,6 +22,8 @@ import {
   getAllOrders,
   getOrdersById,
   makeShippingAddress,
+  getShippingAddress,
+  getShippingAddressById,
   updateStatus,
 } from "../controller/orderController.js";
 
