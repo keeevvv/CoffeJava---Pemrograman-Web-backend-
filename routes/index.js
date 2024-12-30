@@ -73,9 +73,9 @@ router.get("/api/v1/subcategory", getSubcategory);
 router.get("/api/v1/specific-subcategories", getAllSpecificSubcategories);
 
 //favorite
-router.get("/favorites", verifyToken, getUserFavorites);
-router.post("/favorites", verifyToken, addToFavorites);
-router.delete("/favorites", verifyToken, removeFromFavorites);
+router.get("/api/v1/favorites", verifyToken, getUserFavorites);
+router.post("/api/v1/favorites", verifyToken, addToFavorites);
+router.delete("/api/v1/favorites", verifyToken, removeFromFavorites);
 
 //Cart
 router.get("/api/v1/checkout", verifyToken, getAllCart);
