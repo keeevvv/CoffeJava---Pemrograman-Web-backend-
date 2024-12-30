@@ -22,6 +22,8 @@ import {
   getAllOrders,
   getOrdersById,
   makeShippingAddress,
+  getShippingAddress,
+  getShippingAddressById,
   updateStatus,
 } from "../controller/orderController.js";
 
@@ -43,6 +45,7 @@ import {
   getUserFavorites,
   addToFavorites,
   removeFromFavorites,
+  removeFavoritesById
 } from "../controller/FavoriteController.js";
 
 import { verifyToken } from "../middlewares/VerifyToken.js";
@@ -76,6 +79,8 @@ router.get("/api/v1/specific-subcategories", getAllSpecificSubcategories);
 router.get("/api/v1/favorites", verifyToken, getUserFavorites);
 router.post("/api/v1/favorites", verifyToken, addToFavorites);
 router.delete("/api/v1/favorites", verifyToken, removeFromFavorites);
+router.delete("/api/v1/favorites/:id", verifyToken, removeFavoritesById);
+
 
 //Cart
 router.get("/api/v1/checkout", verifyToken, getAllCart);
@@ -89,6 +94,8 @@ router.get("/api/v1/order", verifyToken, getAllOrders);
 router.get("/api/v1/order/:id", verifyToken, getOrdersById);
 router.put("/api/v1/status", verifyToken, updateStatus);
 router.post("/api/v1/shipping", verifyToken, makeShippingAddress);
+router.get("/api/v1/shipping", verifyToken, getShippingAddress);
+router.get("/api/v1/shipping/:id", verifyToken, getShippingAddressById);
 
 //payment
 router.post("/api/v1/transaction", verifyToken, processTransaction);

@@ -1,3 +1,4 @@
+
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
@@ -134,3 +135,40 @@ export const removeFromFavorites = async (req, res) => {
     res.status(500).json({ message: "Error removing from favorites", error });
   }
 };
+
+// Menghapus produk dari daftar favorit by id
+export const removeFavoritesById = async (req, res) => {
+  try {
+  const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).id;
+  const favoriteId = parseInt(req.params["id"]);
+
+  if (!favoriteId || isNaN(favoriteId)) {
+    return res.status(400).json({ message: "Invalid favorite ID" });
+  }
+
+  const favoriteExists = await prisma.favorite.findUnique({
+    where: {
+      favorite_id: favoriteId,
+    },
+  });
+
+  if (!favoriteExists) {
+    return res.status(404).json({ message: "Favorite not found" });
+  }
+
+  await prisma.favorite.delete({
+    where: {
+      favorite_id: favoriteId
+    }
+  });
+
+  res.status(200).json({ message: "Favorite removed from favorites" });
+
+  }catch(error) {
+    console.error('Error detail:', error);
+    res.status(500).json({ 
+      message: "Error removing from favorites", 
+      error: error.message 
+    });
+  }
+}
