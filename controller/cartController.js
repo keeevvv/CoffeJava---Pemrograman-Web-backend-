@@ -33,6 +33,7 @@ export async function getAllCart(req, res) {
                 price: true,
                 brand: true,
                 desc: true,
+                images: true,
               },
             },
           },
