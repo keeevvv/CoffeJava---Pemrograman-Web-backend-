@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 // Menampilkan daftar produk favorit user
 export const getUserFavorites = async (req, res) => {
-  const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).userId;
+  const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).id;
   try {
     const favorites = await prisma.favorite.findMany({
       where: { user_id: userId },
