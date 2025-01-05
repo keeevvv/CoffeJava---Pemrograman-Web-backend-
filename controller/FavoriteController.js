@@ -1,11 +1,10 @@
-
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 // Menampilkan daftar produk favorit user
 export const getUserFavorites = async (req, res) => {
-  const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).userId;
+  const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).id;
   try {
     const favorites = await prisma.favorite.findMany({
       where: { user_id: userId },
@@ -92,12 +91,9 @@ export const addToFavorites = async (req, res) => {
       },
     });
 
- 
-
     if (existing) {
       return res.status(400).json({ message: "Product already in favorites" });
     }
-
 
     await prisma.favorite.create({
       data: { user_id: userId, product_id: productId },
@@ -121,7 +117,9 @@ export const removeFromFavorites = async (req, res) => {
     });
 
     if (!favoriteExists) {
-      return res.status(404).json({ message: "Product not found in favorites" });
+      return res
+        .status(404)
+        .json({ message: "Product not found in favorites" });
     }
 
     await prisma.favorite.deleteMany({
@@ -139,36 +137,35 @@ export const removeFromFavorites = async (req, res) => {
 // Menghapus produk dari daftar favorit by id
 export const removeFavoritesById = async (req, res) => {
   try {
-  const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).id;
-  const favoriteId = parseInt(req.params["id"]);
+    const userId = jwt.decode(req.headers["authorization"].split(" ")[1]).id;
+    const favoriteId = parseInt(req.params["id"]);
 
-  if (!favoriteId || isNaN(favoriteId)) {
-    return res.status(400).json({ message: "Invalid favorite ID" });
-  }
-
-  const favoriteExists = await prisma.favorite.findUnique({
-    where: {
-      favorite_id: favoriteId,
-    },
-  });
-
-  if (!favoriteExists) {
-    return res.status(404).json({ message: "Favorite not found" });
-  }
-
-  await prisma.favorite.delete({
-    where: {
-      favorite_id: favoriteId
+    if (!favoriteId || isNaN(favoriteId)) {
+      return res.status(400).json({ message: "Invalid favorite ID" });
     }
-  });
 
-  res.status(200).json({ message: "Favorite removed from favorites" });
+    const favoriteExists = await prisma.favorite.findUnique({
+      where: {
+        favorite_id: favoriteId,
+      },
+    });
 
-  }catch(error) {
-    console.error('Error detail:', error);
-    res.status(500).json({ 
-      message: "Error removing from favorites", 
-      error: error.message 
+    if (!favoriteExists) {
+      return res.status(404).json({ message: "Favorite not found" });
+    }
+
+    await prisma.favorite.delete({
+      where: {
+        favorite_id: favoriteId,
+      },
+    });
+
+    res.status(200).json({ message: "Favorite removed from favorites" });
+  } catch (error) {
+    console.error("Error detail:", error);
+    res.status(500).json({
+      message: "Error removing from favorites",
+      error: error.message,
     });
   }
-}
+};

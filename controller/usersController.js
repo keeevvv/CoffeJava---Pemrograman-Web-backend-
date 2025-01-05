@@ -34,9 +34,8 @@ export const Register = async (req, res) => {
   const { nama, email, password, confirmPassword, gender, tanggalLahir } =
     req.body;
 
-    let formattedTanggalLahir = new Date(tanggalLahir);
+  let formattedTanggalLahir = new Date(tanggalLahir);
   try {
-    
     formattedTanggalLahir = formattedTanggalLahir.toISOString();
   } catch (error) {
     return res
@@ -250,7 +249,7 @@ export const editUser = async (req, res) => {
         tanggalLahir: updatedUser.tanggalLahir,
       },
       process.env.ACCESS_TOKEN,
-      { expiresIn: "15d" }
+      { expiresIn: "15s" }
     );
 
     const refreshToken = jwt.sign(
@@ -265,12 +264,9 @@ export const editUser = async (req, res) => {
       { expiresIn: "30d" }
     );
 
-    await prisma.token.updateMany({
-      where: {
-        RefreshToken: cookie,
-        userId: id,
-      },
+    await prisma.token.create({
       data: {
+        userId: id,
         RefreshToken: refreshToken,
       },
     });
@@ -333,7 +329,7 @@ export const changeProfile = async (req, res) => {
           tanggalLahir: updatedUser.tanggalLahir,
         },
         process.env.ACCESS_TOKEN,
-        { expiresIn: "15d" }
+        { expiresIn: "15s" }
       );
 
       const refreshToken = jwt.sign(
@@ -348,12 +344,9 @@ export const changeProfile = async (req, res) => {
         { expiresIn: "30d" }
       );
 
-      await prisma.token.updateMany({
-        where: {
-          RefreshToken: cookie,
-          userId: id,
-        },
+      await prisma.token.create({
         data: {
+          userId: id,
           RefreshToken: refreshToken,
         },
       });
