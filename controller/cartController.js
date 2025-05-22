@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+
 const prisma = new PrismaClient();
 
 export async function getAllCart(req, res) {
@@ -12,7 +13,7 @@ export async function getAllCart(req, res) {
       },
     });
 
-    if (!checkUser) throw "Error, You're Not Signed";
+    if (!checkUser) throw new Error("Error, You're Not Signed");
 
     let data = await prisma.cart.findFirst({
       where: {
@@ -68,7 +69,7 @@ export async function getAllCart(req, res) {
     res.status(200).json(data);
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error });
+    res.status(400).json({ error: error.message || error });
   }
 }
 
@@ -84,7 +85,7 @@ export async function saveCart(req, res) {
       },
     });
 
-    if (!checkUser) throw "Error, You're not signed";
+    if (!checkUser) throw new Error("Error, You're not signed");
 
     let cart = await prisma.cart.findFirst({
       where: {
@@ -104,37 +105,35 @@ export async function saveCart(req, res) {
       where: {
         product_id,
         cart_id: cart.cart_id,
-        size: size,
+        size,
       },
     });
 
-    if (checkProduct)
+    if (checkProduct) {
       return res
         .status(409)
         .json({ msg: "Error, you've already put this item in your cart" });
+    }
 
-    // Dapatkan harga produk
     const productData = await prisma.product.findUnique({
       where: {
-        product_id: product_id,
+        product_id,
       },
     });
 
     const stockData = await prisma.stock.findFirst({
       where: {
-        product_id: product_id,
-        size: size,
+        product_id,
+        size,
       },
     });
 
-    if (!productData) throw "Error, product not found";
-    if (!stockData) throw "Error, stock for the specified";
-    if (stockData.quantity < quantity) throw "Error, insufficient stock";
+    if (!productData) throw new Error("Error, product not found");
+    if (!stockData) throw new Error("Error, stock for the specified size not found");
+    if (stockData.quantity < quantity) throw new Error("Error, insufficient stock");
 
-    // Hitung total harga
     const total_price = quantity * productData.price;
 
-    //kurangi quantity pada stok
     await prisma.stock.update({
       where: {
         stock_id: stockData.stock_id,
@@ -144,21 +143,20 @@ export async function saveCart(req, res) {
       },
     });
 
-    // Tambahkan item ke keranjang
     await prisma.cartItem.create({
       data: {
         quantity,
         product_id,
         cart_id: cart.cart_id,
-        total_price: total_price,
-        size: size,
+        total_price,
+        size,
       },
     });
 
     res.status(200).json({ success: "Product has been stored in your cart" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ msg: "Internal server error" });
+    res.status(500).json({ msg: error.message || "Internal server error" });
   }
 }
 
@@ -167,8 +165,7 @@ export async function changeQTY(req, res) {
   const { itemId, qty } = req.body;
 
   try {
-    // Pastikan itemId diterima dengan benar
-    if (!itemId) throw "Error, itemId is required";
+    if (!itemId) throw new Error("Error, itemId is required");
 
     const checkUser = await prisma.user.findFirst({
       where: {
@@ -177,9 +174,8 @@ export async function changeQTY(req, res) {
       },
     });
 
-    if (!checkUser) throw "Error, You're not signed";
+    if (!checkUser) throw new Error("Error, You're not signed");
 
-    // Periksa apakah item keranjang ada
     const cartItem = await prisma.cartItem.findUnique({
       where: {
         cart_item_id: itemId,
@@ -193,28 +189,77 @@ export async function changeQTY(req, res) {
       },
     });
 
-    if (!cartItem) throw "Error, Cart item not found";
+    if (!cartItem) throw new Error("Error, Cart item not found");
 
-    // Hitung total harga baru
     const total_price = qty * cartItem.product.price;
 
-    // Perbarui item keranjang dengan kuantitas baru dan total harga baru
     const data = await prisma.cartItem.update({
       where: {
         cart_item_id: itemId,
       },
       data: {
         quantity: qty,
-        total_price: total_price,
+        total_price,
       },
     });
 
     res.status(200).json(data);
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error });
+    res.status(400).json({ error: error.message || error });
   }
 }
+
+export async function updateShippingAddress(req, res) {
+  const user = req.user;
+  const { id } = req.params;
+  const { address, city, country, postal, courier, cost } = req.body;
+
+  try {
+    // Make sure the user is valid
+    const checkUser = await prisma.user.findFirst({
+      where: {
+        id: user.id,
+        nama: user.nama,
+      },
+    });
+
+    if (!checkUser) throw new Error("Unauthorized user");
+
+    // Check if the address exists and belongs to the user
+    const existing = await prisma.shippingAddress.findFirst({
+      where: {
+        shipping_id: parseInt(id),  // ✅ use correct field name
+        user_id: user.id,
+      },
+    });
+
+    if (!existing) {
+      return res.status(404).json({ msg: "Shipping address not found." });
+    }
+
+    // Perform the update
+    const updated = await prisma.shippingAddress.update({
+      where: {
+        shipping_id: parseInt(id),  // ✅ use correct field name
+      },
+      data: {
+        address,
+        city,
+        country,
+        postal,
+        courier,
+        cost: parseFloat(cost),
+      },
+    });
+
+    res.status(200).json({ msg: "Shipping address updated successfully", data: updated });
+  } catch (error) {
+    console.error("Update shipping error:", error);
+    res.status(400).json({ error: error.message || "Failed to update shipping address" });
+  }
+}
+
 
 export async function deleteAllItem(req, res) {
   const user = req.user;
@@ -228,16 +273,17 @@ export async function deleteAllItem(req, res) {
       },
     });
 
-    if (!checkUser) throw "Error, You're not signed";
+    if (!checkUser) throw new Error("Error, You're not signed");
 
     const data = await prisma.cartItem.deleteMany({
       where: {
         cart_id,
       },
     });
+
     res.status(200).json(data);
   } catch (error) {
-    res.status(400).json({ error });
+    res.status(400).json({ error: error.message || error });
   }
 }
 
@@ -253,15 +299,16 @@ export async function deleteSingleItem(req, res) {
       },
     });
 
-    if (!checkUser) throw "Error, You're not signed";
+    if (!checkUser) throw new Error("Error, You're not signed");
 
     const data = await prisma.cartItem.delete({
       where: {
         cart_item_id: itemId,
       },
     });
+
     res.status(200).json(data);
   } catch (error) {
-    res.status(400).json({ error });
+    res.status(400).json({ error: error.message || error });
   }
 }

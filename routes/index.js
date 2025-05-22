@@ -16,6 +16,7 @@ import {
   deleteAllItem,
   saveCart,
   deleteSingleItem,
+  updateShippingAddress,
 } from "../controller/cartController.js";
 
 import {
@@ -96,6 +97,7 @@ router.put("/api/v1/status", verifyToken, updateStatus);
 router.post("/api/v1/shipping", verifyToken, makeShippingAddress);
 router.get("/api/v1/shipping", verifyToken, getShippingAddress);
 router.get("/api/v1/shipping/:id", verifyToken, getShippingAddressById);
+router.put("/api/v1/shipping/:id", verifyToken, updateShippingAddress);
 
 //payment
 router.post("/api/v1/transaction", verifyToken, processTransaction);
