@@ -37,7 +37,7 @@ export const refreshToken = async (req, res) => {
             tanggalLahir: user.tanggalLahir,
           },
           process.env.ACCESS_TOKEN,
-          { expiresIn: "15s" }
+          { expiresIn: "15d" }
         );
         res.json({ accessToken });
       }

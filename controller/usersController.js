@@ -249,7 +249,7 @@ export const editUser = async (req, res) => {
         tanggalLahir: updatedUser.tanggalLahir,
       },
       process.env.ACCESS_TOKEN,
-      { expiresIn: "15s" }
+      { expiresIn: "15d" }
     );
 
     const refreshToken = jwt.sign(
