@@ -97,7 +97,11 @@ export async function makeShippingAddress(req, res) {
             }
         });
 
-        res.status(201).json({ success: "Shipping address created", shippingAddress });
+        res.status(201).json({
+            success: true,
+            message: "Shipping address created successfully",
+            data: shippingAddress
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: "Internal server error" });
@@ -195,7 +199,12 @@ export async function updateStatus(req, res) {
             }
         })
 
-        res.status(200).json(updateOrder)
+        res.status(200).json({
+            success: true,
+            message: "Order status updated successfully",
+            status: req.body.status,
+            data: updateOrder
+        });
 
     }catch(error) {
         console.error(error)

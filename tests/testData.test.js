@@ -3,7 +3,7 @@ import app from "../index.js";
 
 
 const {requpdatestatus, reqmakeaddress} = require('../utils/orderTestData.js'); 
-const token = "Masukan_Token_Masing-masing"
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0ODM0NDExNCwiZXhwIjoxNzUwMDcyMTE0fQ.bqQMw4lVipnyNdRbOzfLGd3-suNx9N1JBu8GzFcj9fA"
 
 describe("PUT /api/v1/status", () => {
     test("should update a status", async () => {
