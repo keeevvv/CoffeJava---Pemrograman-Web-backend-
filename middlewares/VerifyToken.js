@@ -5,7 +5,7 @@ dotenv.config();
 
 export const verifyToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  const token = authHeader?.split(" ")[1];
   if (!token) return res.sendStatus(403);
 
   jwt.verify(token, process.env.ACCESS_TOKEN, (err, decode) => {

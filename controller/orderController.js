@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 export async function getAllOrders(req, res) {
@@ -13,7 +12,7 @@ export async function getAllOrders(req, res) {
             }
         });
 
-        if (!checkUser) throw "Error, You're Not Signed";
+        if (!checkUser) throw new Error("Error, You're Not Signed");
 
         let orders = await prisma.order.findMany({
             where: {
@@ -51,7 +50,7 @@ export async function getOrdersById(req, res) {
             }
         })
 
-        if(!orders) throw "Order not found"
+        if(!orders) throw new Error("Order not found")
         res.status(200).json(orders)
 
     }catch(error) {
@@ -66,12 +65,11 @@ export async function makeShippingAddress(req, res) {
     const { address, city, country, postal, courier, cost } = req.body;
 
     try {
-        // Tambahkan log untuk debug
-        // console.log('Received user:', user);
+       
 
-        if (!user) throw "Error, user not authenticated";
+        if (!user) throw new Error("Error, user not authenticated");
 
-        // Cari user berdasarkan userId atau email dari JWT token
+        
         let checkUser = await prisma.user.findFirst({
             where: {
                 id: user.id
@@ -80,7 +78,7 @@ export async function makeShippingAddress(req, res) {
 
         if (!checkUser) {
             console.log('User not found with email:', user.email);
-            throw "Error, user not found";
+            throw new Error("Error, user not found");
         }
 
         // Membuat alamat pengiriman baru
@@ -96,7 +94,11 @@ export async function makeShippingAddress(req, res) {
             }
         });
 
-        res.status(201).json({ success: "Shipping address created", shippingAddress });
+        res.status(201).json({
+            success: true,
+            message: "Shipping address created successfully",
+            data: shippingAddress
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: "Internal server error" });
@@ -118,16 +120,8 @@ export async function updateStatus(req, res) {
             }
         })
 
-        if(!checkUser) throw "Error, You're Not Signed"
+        if(!checkUser) throw new Error("Error, You're Not Signed")
 
-        // const order = await prisma.order.findFirst({
-        //     where: {
-        //         order_id: orderId,
-        //         user_id: user.id
-        //     }
-        // })
-
-        // if(!order) throw "Order Not Found"
 
         const updateOrder = await prisma.order.updateMany({
             where: {
@@ -138,7 +132,12 @@ export async function updateStatus(req, res) {
             }
         })
 
-        res.status(200).json(updateOrder)
+        res.status(200).json({
+            success: true,
+            message: "Order status updated successfully",
+            status: req.body.status,
+            data: updateOrder
+        });
 
     }catch(error) {
         console.error(error)

@@ -19,19 +19,27 @@ Content-Type: application/json
     "password": "ayamnaikHaji"
 }
 
+### update User
+PUT  http://localhost:3000/api/v1/editUser/0178d6b5-e1f3-46c0-859c-83625972a7b5
+Authorization:Bearer 
+Content-Type: application/json
+{
+  "nama": "orang ganteng"
+}
+
 ### get all user
 GET http://localhost:3000/api/v1/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNDRhMTA5LTIxM2MtNDMwYS04NjhiLWVkYTUxNzFiNzY1MCIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsImlhdCI6MTczMzc1ODAwMiwiZXhwIjoxNzM1NDg2MDAyfQ.dVl3MOF632hSu5NzvTMVudO1Esexg7Hh3vSLvnBNU5w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0NjUyMTUwNiwiZXhwIjoxNzQ4MjQ5NTA2fQ.IHEPqmLSG_EIC80HE1C63Qp-Lko2fC_flDVZrD7FpMo
 #### token
 GET http://localhost:3000/api/v1/token
 
 ### Logout
 DELETE http://localhost:3000/api/v1/logout
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNDRhMTA5LTIxM2MtNDMwYS04NjhiLWVkYTUxNzFiNzY1MCIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsImlhdCI6MTczMzc1ODAwMiwiZXhwIjoxNzM1NDg2MDAyfQ.dVl3MOF632hSu5NzvTMVudO1Esexg7Hh3vSLvnBNU5w
 
 ### Mengambil daftar produk favorit user
 GET http://localhost:3000/api/v1/favorites
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNDRhMTA5LTIxM2MtNDMwYS04NjhiLWVkYTUxNzFiNzY1MCIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsImlhdCI6MTczMzc1ODAwMiwiZXhwIjoxNzM1NDg2MDAyfQ.dVl3MOF632hSu5NzvTMVudO1Esexg7Hh3vSLvnBNU5w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0NzU0MzA5NSwiZXhwIjoxNzQ5MjcxMDk1fQ.Fw9wlBJ_iK0KhGRlnmf50LmbwzVkfuDsQL4EQJqnnP8
 
 ###
 
@@ -41,7 +49,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNDRhMTA5L
 Content-Type: application/json
 
 {
-  "productId": 101
+  "productId": 11
 }
 
 ###
@@ -58,33 +66,33 @@ Content-Type: application/json
 
 ### Save Cart
 POST  http://localhost:3000/api/v1/checkout
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0NzU0MzA5NSwiZXhwIjoxNzQ5MjcxMDk1fQ.Fw9wlBJ_iK0KhGRlnmf50LmbwzVkfuDsQL4EQJqnnP8
 Content-Type: application/json
 
 {
-    "quantity":3,
-    "product_id": 90,
+    "quantity":2,
+    "product_id": 10,
     "size": "S"
 }
 
 ### get all Cart
 GET http://localhost:3000/api/v1/checkout
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0NzU0MzA5NSwiZXhwIjoxNzQ5MjcxMDk1fQ.Fw9wlBJ_iK0KhGRlnmf50LmbwzVkfuDsQL4EQJqnnP8
 
 
 ### update quantity
 PUT http://localhost:3000/api/v1/checkout/update
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0NzU0MzA5NSwiZXhwIjoxNzQ5MjcxMDk1fQ.Fw9wlBJ_iK0KhGRlnmf50LmbwzVkfuDsQL4EQJqnnP8
 Content-Type: application/json
 
 {
-    "itemId": 4,
+    "itemId": 10,
     "qty": 3
 }
 
 ### delete all item
 DELETE  http://localhost:3000/api/v1/checkout/delete
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0NzU0MzA5NSwiZXhwIjoxNzQ5MjcxMDk1fQ.Fw9wlBJ_iK0KhGRlnmf50LmbwzVkfuDsQL4EQJqnnP8
 Content-Type: application/json
 
 {
@@ -93,48 +101,48 @@ Content-Type: application/json
 
 ### delete item by id
 DELETE  http://localhost:3000/api/v1/checkout/delete/:id
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0NzU0MzA5NSwiZXhwIjoxNzQ5MjcxMDk1fQ.Fw9wlBJ_iK0KhGRlnmf50LmbwzVkfuDsQL4EQJqnnP8
 Content-Type: application/json
 
 {
-    "itemId": 7
+    "itemId": 90
 }
 
 
 
 ### Get All Orders
 GET http://localhost:3000/api/v1/order
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0NzU0MzA5NSwiZXhwIjoxNzQ5MjcxMDk1fQ.Fw9wlBJ_iK0KhGRlnmf50LmbwzVkfuDsQL4EQJqnnP8
 
 ### Get Order By ID
 GET http://localhost:3000/api/v1/order/:id
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0NzU0MzA5NSwiZXhwIjoxNzQ5MjcxMDk1fQ.Fw9wlBJ_iK0KhGRlnmf50LmbwzVkfuDsQL4EQJqnnP8
 
 ### Make Shipping Address
 POST http://localhost:3000/api/v1/shipping
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0NzU0MzA5NSwiZXhwIjoxNzQ5MjcxMDk1fQ.Fw9wlBJ_iK0KhGRlnmf50LmbwzVkfuDsQL4EQJqnnP8
 
 {
   "address": "123 Street",
   "city": "City",
-  "country": "Country",
+  "country": "Country2",
   "postal": "12345",
   "courier": "Courier",
-  "cost": 15000
+  "cost": 12500
 }
 
 
 ### Proses Transaksi
 POST http://localhost:3000/api/v1/transaction
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0NjUyNDgxMiwiZXhwIjoxNzQ4MjUyODEyfQ.-NmSe8WVbQWwv4nX1BvRw_yt-hsFDrJT5dP7MYVpPLE
 
 {
   "shipping_id": 1,
   "payment_type": "bni_va",
   "customer_details": {
-    "first_name": "Mamat Sentosa",
+    "first_name": "Ahmad Sentosa",
     "email": "mamat@email.com"
   }
 }
@@ -142,7 +150,7 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3
 ### Pembayaran Sukses
 POST http://localhost:3000/api/v1/transaction/success
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0NjUyNDgxMiwiZXhwIjoxNzQ4MjUyODEyfQ.-NmSe8WVbQWwv4nX1BvRw_yt-hsFDrJT5dP7MYVpPLE
 
 {
   "transaction": {
@@ -155,7 +163,7 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3
 ### Update Order Status
 PUT http://localhost:3000/api/v1/status
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.kIH44fgzgkKi5TXKBKB5Z3OL0C9AS22ONjIIhsLsmYc
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJmNmM0OTkyLTdmZTUtNGI2OC1iOTQ3LTI3MGY5MjM1ODY1YiIsIm5hbWUiOiJNYW1hdCBTZW50b3NhIiwiZW1haWwiOiJtYW1hdEBlbWFpbC5jb20iLCJwcm9maWxlSW1hZ2UiOm51bGwsInRhbmdnYWxMYWhpciI6IjE5OTQtMDYtMTBUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTc0NjUyNDgxMiwiZXhwIjoxNzQ4MjUyODEyfQ.-NmSe8WVbQWwv4nX1BvRw_yt-hsFDrJT5dP7MYVpPLE
 
 {
   "status": "sent"

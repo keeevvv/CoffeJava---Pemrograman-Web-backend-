@@ -1,4 +1,5 @@
 import express from "express";
+import multer from "multer";
 import {
   Register,
   Login,
@@ -6,6 +7,7 @@ import {
   Logout,
   changePassword,
   editUser,
+  changeProfile,
 } from "../controller/usersController.js";
 
 import {
@@ -16,7 +18,12 @@ import {
   deleteSingleItem,
 } from "../controller/cartController.js";
 
-import { getAllOrders, getOrdersById, makeShippingAddress, updateStatus } from "../controller/orderController.js";
+import {
+  getAllOrders,
+  getOrdersById,
+  makeShippingAddress,
+  updateStatus,
+} from "../controller/orderController.js";
 
 import {
   processTransaction,
@@ -27,6 +34,9 @@ import {
   getAllProduct,
   getPopulerProduct,
   getProductById,
+  getAllCategories,
+  getSubcategory,
+  getAllSpecificSubcategories,
 } from "../controller/productsController.js";
 
 import {
@@ -38,6 +48,7 @@ import {
 import { verifyToken } from "../middlewares/VerifyToken.js";
 import { refreshToken } from "../controller/RefreshTokenController.js";
 const router = express.Router();
+const upload = multer({ dest: "uploads/" });
 
 //users
 router.post("/api/v1/register", Register);
@@ -46,12 +57,20 @@ router.post("/api/v1/login", Login);
 router.get("/api/v1/users", verifyToken, getAllUser);
 router.get("/api/v1/token", refreshToken);
 router.delete("/api/v1/logout", Logout);
-router.put("/api/v1/editUser/:id", editUser);
+router.put("/api/v1/editUser/:id", verifyToken, editUser);
+router.post(
+  "/api/v1/editProfile/:id",
+  verifyToken,
+  upload.single("image"),
+  changeProfile
+);
 
 //products
 router.get("/api/v1/products", getAllProduct);
 router.get("/api/v1/product/:id", getProductById);
-
+router.get("/api/v1/categories", getAllCategories);
+router.get("/api/v1/subcategory", getSubcategory);
+router.get("/api/v1/specific-subcategories", getAllSpecificSubcategories);
 
 //favorite
 router.get("/api/v1/favorites", verifyToken, getUserFavorites);
@@ -67,10 +86,10 @@ router.delete("/api/v1/checkout/delete", verifyToken, deleteAllItem);
 router.delete("/api/v1/checkout/delete/:id", verifyToken, deleteSingleItem);
 
 //order
-router.get("/api/v1/order", verifyToken, getAllOrders)
-router.get("/api/v1/order/:id", verifyToken, getOrdersById)
-router.put("/api/v1/status", verifyToken, updateStatus)
-router.post("/api/v1/shipping", verifyToken, makeShippingAddress)
+router.get("/api/v1/order", verifyToken, getAllOrders);
+router.get("/api/v1/order/:id", verifyToken, getOrdersById);
+router.put("/api/v1/status", verifyToken, updateStatus);
+router.post("/api/v1/shipping", verifyToken, makeShippingAddress);
 
 //payment
 router.post("/api/v1/transaction", verifyToken, processTransaction);
