@@ -5,12 +5,28 @@ import dotenv from "dotenv";
 import multer from "multer";
 import cloudinary from "cloudinary";
 import { jwtDecode } from "jwt-decode";
+import passwordValidator from "password-validator";
 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,
   api_secret: process.env.API_SECRET,
 });
+
+var schema = new passwordValidator()
+  .min(6, "Password must be at least 6 characters long")
+  .has()
+  .uppercase(1, "Password must have at least one uppercase letter")
+  .has()
+  .not()
+  .spaces(1, "Password must not have spaces")
+  .has()
+  .digits(2, "Password must have at least two digits")
+  .has()
+  .symbols(1, "Password must have at least one special character")
+  .is()
+  .not()
+  .oneOf(["Passw0rd", "Password123", "12345678"]);
 const prisma = new PrismaClient();
 export const getAllUser = async (req, res) => {
   try {
@@ -46,6 +62,11 @@ export const Register = async (req, res) => {
     return res
       .status(400)
       .json({ msg: "Password and confirm password do not match" });
+  }
+
+  const isValidPassword = schema.validate(password, { details: true });
+  if (isValidPassword.length > 0) {
+    return res.status(400).json({ msg: isValidPassword[0].message });
   }
 
   try {
@@ -95,6 +116,11 @@ export const Login = async (req, res) => {
       return res
         .status(404)
         .json({ msg: `User with email ${email} not found` });
+
+    const isValidPassword = schema.validate(password, { details: true });
+    if (isValidPassword.length > 0) {
+      return res.status(400).json({ msg: "Wrong password" });
+    }
 
     const match = await bcrypt.compare(password, User.password);
     if (!match) return res.status(400).json({ msg: "Wrong password" });

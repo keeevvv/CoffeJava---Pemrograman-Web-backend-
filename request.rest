@@ -5,8 +5,8 @@ Content-Type: application/json
 {
     "nama": "Mamat Sentosa",
     "email": "mamat@email.com",
-    "password": "ayamnaikHaji",
-    "confirmPassword": "ayamnaikHaji",
+    "password": "ayamnaikHaji12#",
+    "confirmPassword": "ayamnaikHaji12#",
     "gender": "male",
     "tanggalLahir": "1994-06-10"
 }
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
     "email": "mamat@email.com",
-    "password": "ayamnaikHaji"
+    "password": "ayamnaikHaji12#"
 }
 
 ### update User
